@@ -5,7 +5,7 @@
 --gui
 local X, Y = draw.GetScreenSize()
 local fakelag_indicator_Reference = gui.Reference("Misc", "Enhancement", "Fakelag")
-local fakelag_indicator_Enable = gui.Checkbox(fakelag_indicator_Reference, "indicator", "Indicator", 1)
+local fakelag_indicator_Enable = gui.Checkbox(fakelag_indicator_Reference, "indicator", "Indicator", 0)
 local fakelag_indicator_Clr = gui.ColorPicker(fakelag_indicator_Enable, "clr", "clr", 255, 255, 255, 255)
 local fakelag_indicator_Clr2 = gui.ColorPicker(fakelag_indicator_Enable, "clr2", "clr2", 88, 197, 255, 255)
 local fakelag_indicator_Clr3 = gui.ColorPicker(fakelag_indicator_Enable, "clr3", "clr3", 163, 118, 255, 255)
