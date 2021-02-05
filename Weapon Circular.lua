@@ -4,7 +4,7 @@
 --
 --gui
 local X, Y = draw.GetScreenSize()
-local Circular_WeaponUI_Reference = gamingExtension
+local Circular_WeaponUI_Reference = gui.Reference("Visuals", "Other", "Extra")
 local Circular_WeaponUI_Enable = gui.Checkbox(Circular_WeaponUI_Reference, "ui.weaponcircular.enable", "Weapon Circular Enable", 0)
 local Circular_WeaponUI_Clr = gui.ColorPicker(Circular_WeaponUI_Enable,"clr", "clr", 4, 4, 4, 150)
 local Circular_WeaponUI_Clr2 = gui.ColorPicker(Circular_WeaponUI_Enable,"clr2", "clr2", 255, 255, 255, 255)
@@ -21,7 +21,6 @@ local fontWeapon = draw.CreateFont("weaponIcons", 35)
 local font2Weapon = draw.CreateFont("weaponIcons", 80)
 local font3Weapon = draw.CreateFont("weaponIcons", 60)
 local font4Weapon = draw.CreateFont("weaponIcons", 50)
-local MENU = gui.Reference("MENU")
 local tX, tY, offsetX, offsetY, _drag
 local weaponfont = {
     ["ak47"] = "A", ["aug"] = "B", ["awp"] = "C", ["axe"] = "D", ["bayonet"] = "E", ["bizon"] = "F", ["breachcharge"] = "G", 
@@ -38,7 +37,7 @@ local weaponfont = {
     ["smokegrenade"] = "$", ["snowball"] = "%",["spanner"] = "&", ["ssg08"] = "\'", ["tagrenade"] = "(", ["taser"] = ")", 
     ["tec9"] = "*", ["ump45"] = "+", ["usp_silencer"] = ",", ["usp_silencer_off"] = "-", ["xm1014"] = ".",
 }
-
+local MENU = gui.Reference("MENU")
 --function
 
 --Mouse drag
