@@ -4,7 +4,12 @@
 --
 --gui
 local X, Y = draw.GetScreenSize()
-local Circular_WeaponUI_Reference = gui.Reference("Visuals", "Other", "Extra")
+local Circular_WeaponUI_Reference = gamingExtension
+local Circular_WeaponUI_Enable = gui.Checkbox(Circular_WeaponUI_Reference, "ui.weaponcircular.enable", "Weapon Circular Enable", 0)
+local Circular_WeaponUI_Clr = gui.ColorPicker(Circular_WeaponUI_Enable,"clr", "clr", 4, 4, 4, 150)
+local Circular_WeaponUI_Clr2 = gui.ColorPicker(Circular_WeaponUI_Enable,"clr2", "clr2", 255, 255, 255, 255)
+local Circular_WeaponUI_Clr3 = gui.ColorPicker(Circular_WeaponUI_Enable,"clr3", "clrtext", 255, 255, 255, 255)
+local Circular_WeaponUI_Clr4 = gui.ColorPicker(Circular_WeaponUI_Enable,"clr4", "clr4", 255, 255, 255, 255)
 local Circular_WeaponUI_sX = gui.Slider(Circular_WeaponUI_Reference, "ui.weaponcircular.x", "X", 450, 0, X)
 local Circular_WeaponUI_sY = gui.Slider(Circular_WeaponUI_Reference, "ui.weaponcircularr.y", "Y", 400, 0, Y)
 Circular_WeaponUI_sX:SetInvisible(true)
@@ -16,6 +21,7 @@ local fontWeapon = draw.CreateFont("weaponIcons", 35)
 local font2Weapon = draw.CreateFont("weaponIcons", 80)
 local font3Weapon = draw.CreateFont("weaponIcons", 60)
 local font4Weapon = draw.CreateFont("weaponIcons", 50)
+local MENU = gui.Reference("MENU")
 local tX, tY, offsetX, offsetY, _drag
 local weaponfont = {
     ["ak47"] = "A", ["aug"] = "B", ["awp"] = "C", ["axe"] = "D", ["bayonet"] = "E", ["bizon"] = "F", ["breachcharge"] = "G", 
@@ -41,7 +47,7 @@ local function is_inside(a, b, x, y, w, h)
     a >= x and a <= w and b >= y and b <= h 
 end
 local function drag_menu(x, y, w, h)
-    if not gui.Reference("MENU"):IsActive() then
+    if not MENU:IsActive() then
         return tX, tY
     end
     local mouse_down = input.IsButtonDown(1)
@@ -146,7 +152,7 @@ local function drawCircular()
             local x, y = drag_menu(tX, tY, 100, 100)
             local x, y = x + 50, y + 50
             local r, g, b, a = 150, 150, 150, 255
-            local r2, g2, b2, a2 = 4, 4, 4, 150
+            local r2, g2, b2, a2 = Circular_WeaponUI_Clr:GetValue()
             local r3, g3, b3, a3 = 77, 69, 174, 255
             local health = lp:GetHealth()
             local armor = lp:GetProp("m_ArmorValue")
@@ -234,7 +240,7 @@ local function drawCircular()
             
             if Weapon_Ammo_2 ~= -1 then
                 local x1 = draw.GetTextSize(Weapon_Ammo)
-                draw.Color(255, 255, 255, 255)
+                draw.Color(Circular_WeaponUI_Clr3:GetValue())
                 draw.TextShadow(x - (x1 / 2) + 1, y + 25, Weapon_Ammo)
             end
         end
@@ -251,8 +257,8 @@ local function WeaponIcon()
         local x, y = drag_menu(tX, tY, 100, 100)
         local x, y = x + 50, y + 50
         local wid = lp:GetWeaponID()
-    
-        draw.Color(255, 255, 255, 255)
+        local r, g, b, a = Circular_WeaponUI_Clr2:GetValue()
+        draw.Color(r, g, b, a)
         if wid == 1 then
             draw.SetFont(fontWeapon)
             draw.Text(x - 15, y - 2, weaponfont.deagle)
@@ -555,7 +561,7 @@ local function AmmoCircular()
         local Weapon_Ammo = lp:GetPropEntity("m_hActiveWeapon"):GetProp('m_iPrimaryReserveAmmoCount')
         local Weapon_Ammo_2 = lp:GetPropEntity("m_hActiveWeapon"):GetProp('m_iClip1')
         local r, g, b, a = 16, 16, 16, 255
-        local r2, g2, b2, a2 = 255,255,255,255
+        local r2, g2, b2, a2 = Circular_WeaponUI_Clr4:GetValue()
         draw.Color(r2, g2, b2, a2 * 0.8)
         Circular(x, y, 270, 50, Weapon_Ammo_2*Ammo2_Circular, 4)
         draw.Color(r2, g2, b2, a2 * 0.5)
@@ -577,9 +583,11 @@ local function AmmoCircular()
 
 end
 callbacks.Register("Draw", function()
-    PositionSave()
-    drawCircular()
-    WeaponIcon()
-    AmmoCircular()
+    if Circular_WeaponUI_Enable:GetValue() then
+        PositionSave()
+        drawCircular()
+        WeaponIcon()
+        AmmoCircular()
+    end
 end)
 
