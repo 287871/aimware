@@ -1,3 +1,6 @@
+-- Creator (Discord: Uglych#1515)
+-- Qi fix
+
 LoadScript("SenseUI/SenseUI.lua")
 UnloadScript("SenseUI/SenseUI.lua")
 
