@@ -12,7 +12,7 @@ local Avatars_Circle_Clr2 = gui.ColorPicker(Avatars_Circle_Checkbox, "clr2", "cl
 Avatars_Circle_X:SetInvisible(true)
 Avatars_Circle_Y:SetInvisible(true)
 
---var and png
+--var and DecodeJPEG
 local tX, tY, offsetX, offsetY, _drag
 local MENU = gui.Reference("MENU")
 local font = draw.CreateFont('Verdana', 13.5, 11.5)
