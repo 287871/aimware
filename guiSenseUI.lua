@@ -1,12 +1,3 @@
-function gui._Custom(ref, varname, x, y, w, h, paint)
-    local function _paint(x, y, x2, y2)
-        local width = x2 - x
-        local height = y2 - y
-        paint(x, y, x2, y2)
-    end
-    local custom = gui.Custom(ref, varname, x, y, w, h, _paint)
-end
-
 local renderer = {}
 
 renderer.rectangle = function(x, y, w, h, clr, fill, radius)
@@ -77,11 +68,21 @@ renderer.triangle = function(x, y, w, h, w1, h1, clr)
     draw.Triangle(x, y, x - w, y + h, x + w1, y + h1)
 end
 
+--
+function gui._Custom(ref, varname, x, y, w, h, paint)
+    local function _paint(x, y, x2, y2)
+        local width = x2 - x
+        local height = y2 - y
+        paint(x, y, x2, y2)
+    end
+    local custom = gui.Custom(ref, varname, x, y, w, h, _paint)
+end
+
 local function is_inside(a, b, x, y, w, h)
     return a >= x and a <= w and b >= y and b <= h
 end
 
-function draw_window(ref, x, y, w, h)
+local function draw_window(ref, x, y, w, h)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -102,7 +103,7 @@ function draw_window(ref, x, y, w, h)
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Button(ref, x, y, w, h, name, font)
+local function draw_Button(ref, x, y, w, h, name, font)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -119,7 +120,7 @@ function draw_Button(ref, x, y, w, h, name, font)
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Groupbox(ref, x, y, w, h, textW)
+local function draw_Groupbox(ref, x, y, w, h, textW)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -135,7 +136,7 @@ function draw_Groupbox(ref, x, y, w, h, textW)
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Keybox(ref, x, y, w, h)
+local function draw_Keybox(ref, x, y, w, h)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -146,6 +147,7 @@ function draw_Keybox(ref, x, y, w, h)
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
+--
 local Window = gui.Window("SenseGUI", "Main menu", 100, 100, 500, 410)
 local SenseGUI = draw_window(Window, 0, 0, 500, 410)
 
@@ -154,25 +156,21 @@ LegitbotG:SetPosX(115)
 LegitbotG:SetPosY(5)
 LegitbotG:SetWidth(360)
 LegitbotG:SetHeight(100)
-
 local RagebotG = gui.Groupbox(Window, "RagebotG", 200, 0, 100, 100)
 RagebotG:SetPosX(115)
 RagebotG:SetPosY(5)
 RagebotG:SetWidth(360)
 RagebotG:SetHeight(100)
-
 local VisualsG = gui.Groupbox(Window, "VisualsG", 200, 0, 100, 100)
 VisualsG:SetPosX(115)
 VisualsG:SetPosY(5)
 VisualsG:SetWidth(360)
 VisualsG:SetHeight(100)
-
 local MiscG = gui.Groupbox(Window, "MiscG", 200, 0, 100, 100)
 MiscG:SetPosX(115)
 MiscG:SetPosY(5)
 MiscG:SetWidth(360)
 MiscG:SetHeight(100)
-
 local UserG = gui.Groupbox(Window, "UserG", 200, 0, 100, 100)
 UserG:SetPosX(115)
 UserG:SetPosY(5)
@@ -180,7 +178,6 @@ UserG:SetWidth(360)
 UserG:SetHeight(100)
 
 local function Legitbot()
-    print("Legitbot")
     LegitbotG:SetInvisible(false)
     RagebotG:SetInvisible(true)
     VisualsG:SetInvisible(true)
@@ -199,7 +196,6 @@ local Legitbot_draw_Groupbox_text = gui.Text(LegitbotG, "Legitbot")
 Legitbot_draw_Groupbox_text:SetPosY(-50)
 
 local function Ragebot()
-    print("Ragebot")
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(false)
     VisualsG:SetInvisible(true)
@@ -217,7 +213,6 @@ local Ragebot_draw_Groupbox_text = gui.Text(RagebotG, "Ragebot")
 Ragebot_draw_Groupbox_text:SetPosY(-50)
 
 local function Visuals()
-    print("Visuals")
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(true)
     VisualsG:SetInvisible(false)
@@ -235,7 +230,6 @@ local Visuals_draw_Groupbox_text = gui.Text(VisualsG, "Visuals")
 Visuals_draw_Groupbox_text:SetPosY(-50)
 
 local function Misc()
-    print("Misc")
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(true)
     VisualsG:SetInvisible(true)
@@ -253,7 +247,6 @@ local Misc_draw_Groupbox_text = gui.Text(MiscG, "Misc")
 Misc_draw_Groupbox_text:SetPosY(-50)
 
 local function User()
-    print("User")
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(true)
     VisualsG:SetInvisible(true)
@@ -276,16 +269,18 @@ VisualsG:SetInvisible(true)
 MiscG:SetInvisible(true)
 UserG:SetInvisible(true)
 
-local open_menu_text = gui.Text(MiscG, "Open Menu Key")
-local open_menu_key = gui.Keybox(MiscG, "open.semenu.key", "", 46)
-open_menu_key:SetPosX(200)
-open_menu_key:SetPosY(-23)
-open_menu_key:SetWidth(100)
-open_menu_key:SetHeight(15)
+local open_menu_key_ref = gui.Reference("Settings", "Advanced", "Manage advanced settings")
+local open_menu_key = gui.Keybox(open_menu_key_ref, "open.semenu.key", "Open Sense UI Menu Ke", 46)
+open_menu_key:SetDescription("Bind for sense ui menu toggle")
 callbacks.Register(
     "Draw",
     function()
-        open_menu_key:SetValue(46)
         Window:SetOpenKey(open_menu_key:GetValue())
     end
 )
+--gui
+Legitbot_Reference = LegitbotG
+Ragebot_Reference = RagebotG
+Visuals_Reference = VisualsG
+Misc_Reference = MiscG
+User_Reference = UserG
