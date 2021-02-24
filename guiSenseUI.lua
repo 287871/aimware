@@ -1,3 +1,8 @@
+--[[
+Working on aimware
+Making gui.custom based on aw
+by qi
+]]
 local renderer = {}
 local active_window_index = 1
 local font = draw.CreateFont("Astriumtabs2", 41, 1000)
@@ -236,7 +241,7 @@ Legitbot:SetHeight(90)
 
 local Legitbot_drawBut = draw_Button(Window, "legitbot.drawbutton", 22, 31, 70, 46, 0, 0, 0, 0, 1, "D", font, 15)
 local Legitbot_draw_Groupbox = draw_Groupbox(LegitbotG, 31, 47, 338, 326)
-local Legitbot_draw_GroupboxA = draw_Groupbox_a(LegitbotG, 53, -22, 300, 370)
+local Legitbot_draw_GroupboxA = draw_Groupbox_a(LegitbotG, 53, -22, 295, 370)
 
 local function Ragebot()
     LegitbotG:SetInvisible(true)
@@ -252,7 +257,7 @@ Ragebot:SetWidth(85)
 Ragebot:SetHeight(75)
 local Ragebot_drawBut = draw_Button(Window, "ragebot.drawbutton", 22, 125, 70, 28, 0, -19, 0, 0, 2, "C", font, 0)
 local Ragebot_draw_Groupbox = draw_Groupbox(RagebotG, 31, 47, 338, 326)
-local Ragebot_draw_GroupboxA = draw_Groupbox_a(RagebotG, 53, -22, 300, 370)
+local Ragebot_draw_GroupboxA = draw_Groupbox_a(RagebotG, 53, -22, 295, 370)
 
 local function Visuals()
     LegitbotG:SetInvisible(true)
@@ -268,7 +273,7 @@ Visuals:SetWidth(85)
 Visuals:SetHeight(75)
 local Visuals_drawBut = draw_Button(Window, "visuals.drawbutton", 22, 203, 70, 28, 0, -19, 0, 0, 3, "E", font, 0)
 local Visuals_draw_Groupbox = draw_Groupbox(VisualsG, 31, 47, 338, 326)
-local Visuals_draw_GroupboxA = draw_Groupbox_a(VisualsG, 53, -22, 300, 370)
+local Visuals_draw_GroupboxA = draw_Groupbox_a(VisualsG, 53, -22, 295, 370)
 local function Misc()
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(true)
@@ -283,7 +288,7 @@ Misc:SetWidth(85)
 Misc:SetHeight(75)
 local Misc_drawBut = draw_Button(Window, "misc.drawbutton", 22, 280, 70, 30, 0, -19, 0, 0, 4, "F", font, 0)
 local Misc_draw_Groupbox = draw_Groupbox(MiscG, 31, 47, 338, 326)
-local Misc_draw_GroupboxA = draw_Groupbox_a(MiscG, 53, -22, 300, 370)
+local Misc_draw_GroupboxA = draw_Groupbox_a(MiscG, 53, -22, 295, 370)
 local function User()
     LegitbotG:SetInvisible(true)
     RagebotG:SetInvisible(true)
@@ -298,7 +303,7 @@ User:SetWidth(85)
 User:SetHeight(90)
 local User_drawBut = draw_Button(Window, "user.drawbutton", 22, 358, 70, 46, 0, -19, 0, -12, 5, "H", font, 0)
 local User_draw_Groupbox = draw_Groupbox(UserG, 31, 47, 338, 326)
-local User_draw_GroupboxA = draw_Groupbox_a(UserG, 53, -22, 300, 370)
+local User_draw_GroupboxA = draw_Groupbox_a(UserG, 53, -22, 295, 370)
 LegitbotG:SetInvisible(false)
 RagebotG:SetInvisible(true)
 VisualsG:SetInvisible(true)
