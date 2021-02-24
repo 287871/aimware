@@ -148,7 +148,7 @@ local function draw_Keybox(ref, x, y, w, h)
 end
 
 --
-local Window = gui.Window("SenseGUI", "Main menu", 100, 100, 500, 410)
+local Window = gui.Window("SenseGUI", "Sense Gui Menu", 100, 100, 500, 410)
 local SenseGUI = draw_window(Window, 0, 0, 500, 410)
 
 local LegitbotG = gui.Groupbox(Window, "LegitbotG", 200, 0, 100, 100)
@@ -279,8 +279,9 @@ callbacks.Register(
     end
 )
 --gui
-Legitbot_Reference = LegitbotG
-Ragebot_Reference = RagebotG
-Visuals_Reference = VisualsG
-Misc_Reference = MiscG
-User_Reference = UserG
+gui_custom_SenseUI_Reference = Window
+gui_custom_Legitbot_Reference = LegitbotG
+gui_custom_Ragebot_Reference = RagebotG
+gui_custom_Visuals_Reference = VisualsG
+gui_custom_Misc_Reference = MiscG
+gui_custom_User_Reference = UserG
