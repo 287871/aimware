@@ -319,7 +319,7 @@ callbacks.Register(
         Window:SetOpenKey(open_menu_key:GetValue())
     end
 )
---gui
+--@gui reference
 gui_custom_SenseUI_Reference = Window
 gui_custom_Legitbot_Reference = LegitbotG
 gui_custom_Ragebot_Reference = RagebotG
