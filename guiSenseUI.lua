@@ -97,42 +97,12 @@ function draw_window(ref, x, y, w, h)
 
         renderer.gradient(x + 6, y - 19, (x2 - x) * 0.5, 1, {34, 166, 242, 255}, {228, 4, 245, 255}, nil)
         renderer.gradient(x + (x2 - x) * 0.5, y - 19, (x2 - x) * 0.5 - 7, 1, {228, 4, 245, 255}, {230, 233, 15, 255}, nil)
-
-        if is_inside(mx, my, reX, reY, reX + w, reY + 20) then
-            draw.RoundedRect(x, y, x2, y + 25, 10, 50, 50, 50, 50)
-        end
-
-        if is_inside(mx, my, reX + w - 20, reY + h - 20, reX + w + 20, reY + h + 20) then
-            renderer.triangle(x2 - 8, y2 - 8, 8, 0, 0, -8, {44, 44, 44, 255})
-        end
-    end
-
-    gui._Custom(ref, "", x, y, w, h, paint)
-end
-local font1 = draw.CreateFont("Verdana", 13)
-function draw_Groupbox(ref, x, y, w, h, name)
-    local function paint(x, y, x2, y2)
-        local mx, my = input.GetMousePos()
-        local reX, reY = ref:GetValue()
-
-        draw.Color(34, 34, 34, 255)
-        draw.FilledRect(x - 16, y - 47, x2, y2)
-        draw.Color(17, 17, 17, 255)
-        draw.FilledRect(x - 15, y - 46, x2 - 1, y2 - 1)
-
-        draw.SetFont(font1)
-        local Tw, Th = draw.GetTextSize(name)
-        draw.Color(17, 17, 17, 255)
-        draw.FilledRect(x - 5, y - 47, x + Tw + 5, y + 2)
-        draw.Color(255, 255, 255, 255)
-        draw.Text(x, y - 52, name)
-        draw.Text(x + 0.3, y - 51.8, name)
     end
 
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Button_a(ref, x, y, w, h, name, font)
+function draw_Button(ref, x, y, w, h, name, font)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -149,7 +119,7 @@ function draw_Button_a(ref, x, y, w, h, name, font)
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Button_b(ref, x, y, w, h, name)
+function draw_Groupbox(ref, x, y, w, h, textW)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
@@ -158,60 +128,55 @@ function draw_Button_b(ref, x, y, w, h, name)
         draw.FilledRect(x - 48, y - 94, x2, y2)
         draw.Color(17, 17, 17, 255)
         draw.FilledRect(x - 47, y - 93, x2 - 1, y2 - 1)
+        draw.Color(17, 17, 17, 255)
+        draw.FilledRect(x - 35, y - 95, x + textW, y - 90)
     end
 
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-function draw_Checkbox(ref, x, y, w, h, name, font)
+function draw_Keybox(ref, x, y, w, h)
     local function paint(x, y, x2, y2)
         local mx, my = input.GetMousePos()
         local reX, reY = ref:GetValue()
 
-        draw.Color(34, 34, 34, 255)
-        draw.FilledRect(x - 1, y - 1, x2, y2)
         draw.Color(17, 17, 17, 255)
-        draw.FilledRect(x, y, x2 - 1, y2 - 1)
-        draw.Color(238, 238, 238, 255)
-        draw.SetFont( font )
-        draw.Text(x2 +5, y + 3, name)
-        draw.Text(x2 +5, y + 3, name)
+        draw.FilledRect(x - 47, y - 93, x2 - 1, y2 - 1)
     end
-
     gui._Custom(ref, "", x, y, w, h, paint)
 end
 
-local Window = gui.Window("Sense GUI", "Main menu", 100, 100, 500, 410)
+local Window = gui.Window("SenseGUI", "Main menu", 100, 100, 500, 410)
 local SenseGUI = draw_window(Window, 0, 0, 500, 410)
 
 local LegitbotG = gui.Groupbox(Window, "LegitbotG", 200, 0, 100, 100)
 LegitbotG:SetPosX(115)
-LegitbotG:SetPosY(0)
+LegitbotG:SetPosY(5)
 LegitbotG:SetWidth(360)
 LegitbotG:SetHeight(100)
 
 local RagebotG = gui.Groupbox(Window, "RagebotG", 200, 0, 100, 100)
-RagebotG:SetPosX(100)
-RagebotG:SetPosY(0)
-RagebotG:SetWidth(100)
+RagebotG:SetPosX(115)
+RagebotG:SetPosY(5)
+RagebotG:SetWidth(360)
 RagebotG:SetHeight(100)
 
 local VisualsG = gui.Groupbox(Window, "VisualsG", 200, 0, 100, 100)
-VisualsG:SetPosX(100)
-VisualsG:SetPosY(0)
-VisualsG:SetWidth(100)
+VisualsG:SetPosX(115)
+VisualsG:SetPosY(5)
+VisualsG:SetWidth(360)
 VisualsG:SetHeight(100)
 
 local MiscG = gui.Groupbox(Window, "MiscG", 200, 0, 100, 100)
-MiscG:SetPosX(100)
-MiscG:SetPosY(0)
-MiscG:SetWidth(100)
+MiscG:SetPosX(115)
+MiscG:SetPosY(5)
+MiscG:SetWidth(360)
 MiscG:SetHeight(100)
 
 local UserG = gui.Groupbox(Window, "UserG", 200, 0, 100, 100)
-UserG:SetPosX(100)
-UserG:SetPosY(0)
-UserG:SetWidth(100)
+UserG:SetPosX(115)
+UserG:SetPosY(5)
+UserG:SetWidth(360)
 UserG:SetHeight(100)
 
 local function Legitbot()
@@ -227,9 +192,12 @@ Legitbot:SetPosX(15)
 Legitbot:SetPosY(0)
 Legitbot:SetWidth(85)
 Legitbot:SetHeight(75)
-local font2 = draw.CreateFont("Astriumtabs2", 41, 1000)
-local Legitbot_drawBut = draw_Button_a(Window, 31, 47, 69, 28, "D", font2)
-local Legitbot_drawBut_b = draw_Button_b(LegitbotG, 31, 47, 312, 291, "D")
+local font = draw.CreateFont("Astriumtabs2", 41, 1000)
+local Legitbot_drawBut = draw_Button(Window, 31, 47, 69, 28, "D", font)
+local Legitbot_draw_Groupbox = draw_Groupbox(LegitbotG, 31, 47, 312, 285, 15)
+local Legitbot_draw_Groupbox_text = gui.Text(LegitbotG, "Legitbot")
+Legitbot_draw_Groupbox_text:SetPosY(-50)
+
 local function Ragebot()
     print("Ragebot")
     LegitbotG:SetInvisible(true)
@@ -243,7 +211,10 @@ Ragebot:SetPosX(15)
 Ragebot:SetPosY(78)
 Ragebot:SetWidth(85)
 Ragebot:SetHeight(75)
-local Ragebot_drawBut = draw_Button_a(Window, 31, 125, 69, 28, "C", font2)
+local Ragebot_drawBut = draw_Button(Window, 31, 125, 69, 28, "C", font)
+local Ragebot_draw_Groupbox = draw_Groupbox(RagebotG, 31, 47, 312, 285, 15)
+local Ragebot_draw_Groupbox_text = gui.Text(RagebotG, "Ragebot")
+Ragebot_draw_Groupbox_text:SetPosY(-50)
 
 local function Visuals()
     print("Visuals")
@@ -258,7 +229,10 @@ Visuals:SetPosX(15)
 Visuals:SetPosY(156)
 Visuals:SetWidth(85)
 Visuals:SetHeight(75)
-local Visuals_drawBut = draw_Button_a(Window, 31, 203, 69, 28, "E", font2)
+local Visuals_drawBut = draw_Button(Window, 31, 203, 69, 28, "E", font)
+local Visuals_draw_Groupbox = draw_Groupbox(VisualsG, 31, 47, 312, 285, 12)
+local Visuals_draw_Groupbox_text = gui.Text(VisualsG, "Visuals")
+Visuals_draw_Groupbox_text:SetPosY(-50)
 
 local function Misc()
     print("Misc")
@@ -273,7 +247,10 @@ Misc:SetPosX(15)
 Misc:SetPosY(234)
 Misc:SetWidth(85)
 Misc:SetHeight(75)
-local Misc_drawBut = draw_Button_a(Window, 31, 281, 69, 28, "F", font2)
+local Misc_drawBut = draw_Button(Window, 31, 281, 69, 28, "F", font)
+local Misc_draw_Groupbox = draw_Groupbox(MiscG, 31, 47, 312, 285, -2)
+local Misc_draw_Groupbox_text = gui.Text(MiscG, "Misc")
+Misc_draw_Groupbox_text:SetPosY(-50)
 
 local function User()
     print("User")
@@ -288,21 +265,27 @@ User:SetPosX(15)
 User:SetPosY(312)
 User:SetWidth(85)
 User:SetHeight(75)
-local User_drawBut = draw_Button_a(Window, 31, 359, 69, 28, "H", font2)
-local Color = gui.ColorPicker(UserG, "varname", "clr", 255, 255, 255, 255)
+local User_drawBut = draw_Button(Window, 31, 359, 69, 28, "H", font)
+local User_draw_Groupbox = draw_Groupbox(UserG, 31, 47, 312, 285, -2)
+local User_draw_Groupbox_text = gui.Text(UserG, "User")
+User_draw_Groupbox_text:SetPosY(-50)
+
 LegitbotG:SetInvisible(false)
 RagebotG:SetInvisible(true)
 VisualsG:SetInvisible(true)
 MiscG:SetInvisible(true)
 UserG:SetInvisible(true)
 
-local l_cD = draw_Checkbox(LegitbotG, 0, 0, 10, 10, "name", font1)
-local l_c = gui.Checkbox(LegitbotG, "varname", "", 0)
-l_c:SetHeight(15)
+local open_menu_text = gui.Text(MiscG, "Open Menu Key")
+local open_menu_key = gui.Keybox(MiscG, "open.semenu.key", "", 46)
+open_menu_key:SetPosX(200)
+open_menu_key:SetPosY(-23)
+open_menu_key:SetWidth(100)
+open_menu_key:SetHeight(15)
 callbacks.Register(
     "Draw",
     function()
-        if Color:IsActive() then
-        end
+        open_menu_key:SetValue(46)
+        Window:SetOpenKey(open_menu_key:GetValue())
     end
 )
