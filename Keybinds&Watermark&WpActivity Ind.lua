@@ -1041,11 +1041,12 @@ callbacks.Register(
     function()
         local lp = entities.GetLocalPlayer()
         if sTime == 0 or ((sTime + 1200 < common.Time()) and (lp == nil or not lp:IsAlive())) then
-            local data = http.Get("http://time.tianqi.com/")
-            local data = string.match(data, [[<p id="local">(.-)</p>]])
-
+            --local data = http.Get("http://time.tianqi.com/")
+            --local data = string.match(data, [[<p id="local">(.-)</p>]])
+            local data = http.Get("https://time.is/")
+            --[[ (........)]]
             if data ~= nil then
-                for i, str in pairs(split_string(string.match(data, [[ (........)]]), ":")) do
+                for i, str in pairs(split_string(string.match(data, [[<time id="clock">(.-)</time>]]), ":")) do
                     time[i] = tonumber(str)
                 end
                 sTime = common.Time()
