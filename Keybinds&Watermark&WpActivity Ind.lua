@@ -1481,8 +1481,8 @@ end
 callbacks.Register(
     "Draw",
     function()
+        SetGui()
         if entities.GetLocalPlayer() and keybinds:GetValue() then
-            SetGui()
             position_save()
             OnKeybinds()
         end
