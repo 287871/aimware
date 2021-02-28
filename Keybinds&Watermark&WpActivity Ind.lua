@@ -1,156 +1,46 @@
---Working on aimware
---By Qi
+--- Working on aimware
+--- By Qi
+--- Main
+--- @use svg hard code
+--- @network acquisition time
 
--------------------------------------var
---aw api Improved my running speed
---region entities
-local entities = {
-    FindByClass = entities.FindByClass,
-    GetLocalPlayer = entities.GetLocalPlayer,
-    GetByIndex = entities.GetByIndex,
-    GetByUserID = entities.GetByUserID,
-    GetPlayerResources = entities.GetPlayerResources
-}
---region client
-local client = {
-    WorldToScreen = client.WorldToScreen,
-    Command = client.Command,
-    ChatSay = client.ChatSay,
-    ChatTeamSay = client.ChatTeamSay,
-    AllowListener = client.AllowListener,
-    GetPlayerNameByIndex = client.GetPlayerNameByIndex,
-    GetPlayerNameByUserID = client.GetPlayerNameByUserID,
-    GetPlayerInfo = client.GetPlayerInfo,
-    GetLocalPlayerIndex = client.GetLocalPlayerIndex,
-    SetConVar = client.SetConVar,
-    GetConVar = client.GetConVar
-}
---region globals
-local globals = {
-    TickInterval = globals.TickInterval,
-    TickCount = globals.TickCount,
-    RealTime = globals.RealTime,
-    CurTime = globals.CurTime,
-    FrameCount = globals.FrameCount,
-    FrameTime = globals.FrameTime,
-    AbsoluteFrameTime = globals.AbsoluteFrameTime,
-    MaxClients = globals.MaxClients
-}
---region draw
-local draw = {
-    Color = draw.Color,
-    Line = draw.Line,
-    FilledRect = draw.FilledRect,
-    OutlinedRect = draw.OutlinedRect,
-    RoundedRect = draw.RoundedRect,
-    RoundedRectFill = draw.RoundedRectFill,
-    ShadowRect = draw.ShadowRect,
-    Triangle = draw.Triangle,
-    FilledCircle = draw.FilledCircle,
-    OutlinedCircle = draw.OutlinedCircle,
-    GetTextSize = draw.GetTextSize,
-    Text = draw.Text,
-    TextShadow = draw.TextShadow,
-    GetScreenSize = draw.GetScreenSize,
-    CreateFont = draw.CreateFont,
-    AddFontResource = draw.AddFontResource,
-    SetFont = draw.SetFont,
-    CreateTexture = draw.CreateTexture,
-    UpdateTexture = draw.UpdateTexture,
-    SetTexture = draw.SetTexture
-}
---region common
-local common = {
-    Time = common.Time,
-    DecodePNG = common.DecodePNG,
-    DecodeJPEG = common.DecodeJPEG,
-    RasterizeSVG = common.RasterizeSVG
-}
---region gui
-local gui = {
-    GetValue = gui.GetValue,
-    SetValue = gui.SetValue,
-    Reference = gui.Reference,
-    Checkbox = gui.Checkbox,
-    Slider = gui.Slider,
-    Keybox = gui.Keybox,
-    Combobox = gui.Combobox,
-    Editbox = gui.Editbox,
-    Text = gui.Text,
-    Groupbox = gui.Groupbox,
-    ColorPicker = gui.ColorPicker,
-    Window = gui.Window,
-    Button = gui.Button,
-    Multibox = gui.Multibox,
-    Command = gui.Command,
-    Custom = gui.Custom,
-    Tab = gui.Tab,
-    Listbox = gui.Listbox
-}
---region input
-local input = {
-    GetMousePos = input.GetMousePos,
-    IsButtonDown = input.IsButtonDown,
-    IsButtonPressed = input.IsButtonPressed,
-    IsButtonReleased = input.IsButtonReleased,
-    Slider = input.Slider,
-    Keybox = input.Keybox,
-    GetMouseWheelDelta = input.GetMouseWheelDelta
-}
---region engine
-local engine = {
-    TraceLine = engine.TraceLine,
-    TraceHull = engine.TraceHull,
-    GetPointContents = engine.GetPointContents,
-    GetMapName = engine.GetMapName,
-    GetServerIP = engine.GetServerIP,
-    GetViewAngles = engine.GetViewAngles,
-    SetViewAngles = engine.SetViewAngles
-}
---region file
-local file = {
-    Open = file.Open,
-    Delete = file.Delete,
-    Enumerate = file.Enumerate
-}
---region http
-local http = {
-    Get = http.Get
-}
---region vector
-local vector = {
-    Add = vector.Add,
-    Subtract = vector.Subtract,
-    Multiply = vector.Multiply,
-    Divide = vector.Divide,
-    Length = vector.Length,
-    LengthSqr = vector.LengthSqr,
-    Distance = vector.Distance,
-    Normalize = vector.Normalize,
-    Angles = vector.Angles,
-    AngleForward = vector.AngleForward,
-    AngleRight = vector.AngleRight,
-    AngleUp = vector.AngleUp,
-    AngleNormalize = vector.AngleNormalize
-}
---region network
-local network = {
-    Socket = network.Socket,
-    GetAddrInfo = network.GetAddrInfo,
-    GetNameInfo = network.GetNameInfo
-}
---region materials
-local materials = {
-    Find = materials.Find,
-    Enumerate = materials.Enumerate,
-    Create = materials.Create
-}
---region panorama
-local panorama = {
-    RunScript = panorama.RunScript
-}
+--region aw_api
+--entities
+local entities = entities
+--client
+local client = client
+--globals
+local globals = globals
+--draw
+local draw = draw
+--common
+local common = common
+--gui
+local gui = gui
+--input
+local input = input
+--engine
+local engine = engine
+--file
+local file = file
+--http
+local http = http
+--vector
+local vector = vector
+--network
+local network = network
+--materials
+local materials = materials
+--panorama
+local panorama = panorama
+--endregion
 
-local wicon = {
+--region weapon icon
+--- @param name
+--- @param x
+--- @param y
+--- @param svg
+local wpicon = {
     ["awp"] = {
         110,
         32,
@@ -637,143 +527,210 @@ local wicon = {
         '<?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><g><g><path fill="#FFFFFF" d="M5,24.5l5.4,4.3l9.8-13c0.2-0.3,0.5-1.2,0.5-1.2s0.1-0.7,0.5-1.4c0.4-0.7,1.2-1.7,1.2-1.7l-3.7-3.1c0,0-1.6,1.5-1.8,1.7c-0.7,0.7-1.5,1-1.8,1.4S5,24.5,5,24.5z"/><polygon fill="#FFFFFF" points="19.3,7.8 23,10.8 27.9,1.8 26.6,0.7"/><path fill="#FFFFFF" d="M4.4,25.2l5.5,4.4l-0.5,0.5c0,0-2,0-3.7-1.3c-1.9-1.4-1.7-3.1-1.7-3.1L4.4,25.2z"/></g></g></svg>'
     }
 }
+--endregion
 
------------------------------------
-local activity_alpha = 0
-local watermark_alpha = 0
-
-local font = draw.CreateFont("Verdana", 12)
-local x, y = draw.GetScreenSize()
-local activityind_move_x, activityind_move_y, activityind_offset_x, activityind_offset_y, activityind_drag
+--
 local sin = math.sin
 local cos = math.cos
 local rad = math.rad
+local match = string.match
+local lower = string.lower
+--
 
-local tick = client.GetConVar("sv_maxcmdrate")
-local time, bTime, sTime = {0, 0, 0}, 0, 0
-
-local renderer = {}
--------------------------------------var end
-
--------------------------------------gui
+--region gui
+--- Reference
+--- @aimware menu
+--- @gui position
+--- @ragebot accuracy weapon -acquisition of weapons
 local menu = gui.Reference("menu")
 local reference = gui.Reference("Misc", "General", "Extra")
 local ragebot_accuracy_weapon = gui.Reference("Ragebot", "Accuracy", "Weapon")
 
+--- Main switch
+--- @watermark
+--- @keybinds
+--- @weapon_activeindicator
 local watermark = gui.Checkbox(reference, "watermark", "Show Watermark", 1)
-local activityind = gui.Checkbox(reference, "weaponactivityind", "Weapon Activity Ind", 1)
+local keybinds = gui.Checkbox(reference, "keyingsind", "Show Keyings", 1)
+local activeind = gui.Checkbox(reference, "weaponactiveind", "Weapon Activity Ind", 1)
 
-local activityind_rgb = gui.Checkbox(activityind, "rgb", "rgb", 0)
+--- @rgb effect switch
 local watermark_rgb = gui.Checkbox(watermark, "rgb", "rgb", 0)
+local keybinds_rgb = gui.Checkbox(keybinds, "rgb", "rgb", 0)
+local activeind_rgb = gui.Checkbox(activeind, "rgb", "rgb", 0)
 
+--- Colour
+--- @watermark colour
 local watermark_clr = gui.ColorPicker(watermark, "clr", "clr", 131, 109, 221, 255)
 local watermark_clr2 = gui.ColorPicker(watermark, "clr2", "clr2", 255, 255, 255, 255)
 local watermark_clr3 = gui.ColorPicker(watermark, "clr3", "clr3", 0, 0, 0, 100)
 
-local activityind_clr = gui.ColorPicker(activityind, "clr", "clr", 255, 255, 255, 255)
-local activityind_clr2 = gui.ColorPicker(activityind, "clr2", "clr2", 131, 109, 221, 255)
-local activityind_clr3 = gui.ColorPicker(activityind, "clr3", "clr3", 0, 0, 0, 100)
-local activityind_clr4 = gui.ColorPicker(activityind, "clr4", "clr4", 255, 255, 255, 255)
+--- @keybinds colour
+local keybinds_clr = gui.ColorPicker(keybinds, "clr", "clr", 131, 109, 221, 255)
+local keybinds_clr2 = gui.ColorPicker(keybinds, "clr2", "clr2", 255, 255, 255, 255)
+local keybinds_clr3 = gui.ColorPicker(keybinds, "clr3", "clr3", 0, 0, 0, 100)
 
+--- @active weapon indicator colour
+local activeind_clr = gui.ColorPicker(activeind, "clr", "clr", 131, 109, 221, 255)
+local activeind_clr2 = gui.ColorPicker(activeind, "clr2", "clr2", 255, 255, 255, 255)
+local activeind_clr3 = gui.ColorPicker(activeind, "clr3", "clr3", 0, 0, 0, 100)
+local activeind_clr4 = gui.ColorPicker(activeind, "clr4", "clr4", 255, 255, 255, 255)
+
+--- Position
+local x, y = draw.GetScreenSize()
+--- @watermark x y
 local watermark_x = gui.Slider(watermark, "x", "x", 1900, 0, x)
 local watermark_y = gui.Slider(watermark, "y", "y", 10, 0, y)
-local activityind_x = gui.Slider(activityind, "x", "x", 450, 0, x)
-local activityind_y = gui.Slider(activityind, "y", "y", 400, 0, y)
 
---Gui set
-activityind:SetDescription("Shows the hit rate and damage of the active weapon.")
+--- @keybinds x y
+local keybinds_x = gui.Slider(keybinds, "x", "x", 300, 0, x)
+local keybinds_y = gui.Slider(keybinds, "y", "y", 400, 0, y)
+
+--- @active weapon x y
+local activeind_x = gui.Slider(activeind, "x", "x", 450, 0, x)
+local activeind_y = gui.Slider(activeind, "y", "y", 400, 0, y)
+
+--- Settings gui parameter
+--- @description
 watermark:SetDescription("Shows watermark Aimware.net.")
+keybinds:SetDescription("Displays the active binding key.")
+activeind:SetDescription("Shows the hit rate and damage of the active weapon.")
 
-activityind_rgb:SetInvisible(true)
+--- @invisible
 watermark_rgb:SetInvisible(true)
-activityind_x:SetInvisible(true)
-activityind_y:SetInvisible(true)
+keybinds_rgb:SetInvisible(true)
+activeind_rgb:SetInvisible(true)
+
 watermark_x:SetInvisible(true)
 watermark_y:SetInvisible(true)
-local function GuiSet()
-    local activityind = activityind:GetValue()
+keybinds_x:SetInvisible(true)
+keybinds_y:SetInvisible(true)
+activeind_x:SetInvisible(true)
+activeind_y:SetInvisible(true)
+
+local function gui_set_invisible()
     local watermark = watermark:GetValue()
+    local keybinds = keybinds:GetValue()
+    local activeind = activeind:GetValue()
 
-    activityind_clr:SetInvisible(not activityind)
-    activityind_clr2:SetInvisible(not activityind)
-    activityind_clr3:SetInvisible(not activityind)
-    activityind_clr4:SetInvisible(not activityind)
-
+    --- @watermark
     watermark_clr:SetInvisible(not watermark)
     watermark_clr2:SetInvisible(not watermark)
     watermark_clr3:SetInvisible(not watermark)
-end
--------------------------------------gui end
 
--------------------------------------preparation
---@From An Mouse drag
-local function IsInside(vec_x, vec_y, x, y, w, h)
+    --- @keybinds
+    keybinds_clr:SetInvisible(not keybinds)
+    keybinds_clr2:SetInvisible(not keybinds)
+    keybinds_clr3:SetInvisible(not keybinds)
+    --- @active weapon indicator
+    activeind_clr:SetInvisible(not activeind)
+    activeind_clr2:SetInvisible(not activeind)
+    activeind_clr3:SetInvisible(not activeind)
+    activeind_clr4:SetInvisible(not activeind)
+end
+--endregion
+
+--region mouse drag
+--- @check that the mouse is in range
+local function is_inside(vec_x, vec_y, x, y, w, h)
     return vec_x >= x and vec_x <= w and vec_y >= y and vec_y <= h
 end
---I didn't know how to solve it, so I wrote two
-local function ADragMenu(x, y, w, h)
+
+--i don't know if there is a better function, so using this, you can save the location every time
+--- @drag indicator position
+local activeind_move_x, activeind_move_y, activeind_offset_x, activeind_offset_y, activeind_drag
+local function drag_indicator(x, y, w, h)
     if not menu:IsActive() then
-        return activityind_move_x, activityind_move_y
+        return activeind_move_x, activeind_move_y
     end
     local mouse_down = input.IsButtonDown(1)
     if mouse_down then
         local mouse_x, mouse_y = input.GetMousePos()
-        if not activityind_drag then
+        if not activeind_drag then
             local w, h = x + w, y + h
-            if IsInside(mouse_x, mouse_y, x, y, w, h) then
-                activityind_offset_x = mouse_x - x
-                activityind_offset_y = mouse_y - y
-                activityind_drag = true
+            if is_inside(mouse_x, mouse_y, x, y, w, h) then
+                activeind_offset_x = mouse_x - x
+                activeind_offset_y = mouse_y - y
+                activeind_drag = true
             end
         else
-            activityind_move_x = mouse_x - activityind_offset_x
-            activityind_move_y = mouse_y - activityind_offset_y
-            activityind_x:SetValue(activityind_move_x)
-            activityind_y:SetValue(activityind_move_y)
+            activeind_move_x = mouse_x - activeind_offset_x
+            activeind_move_y = mouse_y - activeind_offset_y
+            activeind_x:SetValue(activeind_move_x)
+            activeind_y:SetValue(activeind_move_y)
         end
     else
-        activityind_drag = false
+        activeind_drag = false
     end
-    return activityind_move_x, activityind_move_y
+    return activeind_move_x, activeind_move_y
 end
 
-local function AlphaStop(val, min, max)
-    if val < min then
-        return min
+--- @drag indicator position 2
+local keyingsind_offset_tx, keyingsind_offset_ty, keyingsind_offset_x, keyingsind_offset_y, _drag
+local function drag_indicator2(x, y, w, h)
+    if not menu:IsActive() then
+        return keyingsind_offset_tx, keyingsind_offset_ty
     end
-    if val > max then
-        return max
+    local mouse_down = input.IsButtonDown(1)
+    if mouse_down then
+        local X, Y = input.GetMousePos()
+        if not keyingsind_drag then
+            local w, h = x + w, y + h
+            if is_inside(X, Y, x, y, w, h) then
+                keyingsind_offset_x, keyingsind_offset_y = X - x, Y - y
+                keyingsind_drag = true
+            end
+        else
+            keyingsind_offset_tx, keyingsind_offset_ty = X - keyingsind_offset_x, Y - keyingsind_offset_y
+            keybinds_x:SetValue(keyingsind_offset_tx)
+            keybinds_y:SetValue(keyingsind_offset_ty)
+        end
+    else
+        keyingsind_drag = false
     end
-    return val
+    return keyingsind_offset_tx, keyingsind_offset_ty
 end
+--endregion
 
---@rgb http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-local function hue2rgb(p, q, t)
-    if (t < 0) then
-        t = t + 1
-    end
-    if (t > 1) then
-        t = t - 1
-    end
-    if (t < 1 / 6) then
-        return p + (q - p) * 6 * t
-    end
-    if (t < 1 / 2) then
-        return q
-    end
-    if (t < 2 / 3) then
-        return p + (q - p) * (2 / 3 - t) * 6
-    end
-    return p
-end
+--region RGB gradient contrast effect
+--- Come from https://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+--- a little modification made him work for lua
+--- Converts an HSL color value to RGB. Conversion formula
+--- adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+--- Assumes h, s, and l are contained in the set [0, 1] and
+--- returns r, g, and b in the set [0, 255].
+---
+---@param   Number  h       The hue
+---@param   Number  s       The saturation
+---@param   Number  l       The lightness
+---@return  Array           The RGB representation
 local function hslToRgb(h, s, l)
     local r, g, b
 
     if (s == 0) then
         r = l
         g = l
-        b = l
+        b = l -- achromatic
     else
+        local function hue2rgb(p, q, t)
+            if (t < 0) then
+                t = t + 1
+            end
+            if (t > 1) then
+                t = t - 1
+            end
+            if (t < 1 / 6) then
+                return p + (q - p) * 6 * t
+            end
+            if (t < 1 / 2) then
+                return q
+            end
+            if (t < 2 / 3) then
+                return p + (q - p) * (2 / 3 - t) * 6
+            end
+            return p
+        end
+
         local q = 0
         if (l < 0.5) then
             q = l * (1 + s)
@@ -787,9 +744,12 @@ local function hslToRgb(h, s, l)
         g = hue2rgb(p, q, h)
         b = hue2rgb(p, q, h - 1 / 3)
     end
+
     return {r * 255, g * 255, b * 255}
 end
+--endregion
 
+--region simple stop
 local function clamp(val, min, max)
     if (val > max) then
         return max
@@ -799,8 +759,13 @@ local function clamp(val, min, max)
         return val
     end
 end
+--endregion
 
---renderer rectangle
+--region rectangle
+local renderer = {}
+
+--- Rectangle
+---@rectangle
 renderer.rectangle = function(x, y, w, h, clr, fill, radius)
     local alpha = 255
     if clr[4] then
@@ -817,7 +782,7 @@ renderer.rectangle = function(x, y, w, h, clr, fill, radius)
     end
 end
 
---renderer gradient
+---@gradient
 renderer.gradient = function(x, y, w, h, clr, clr1, vertical)
     local r, g, b, a = clr1[1], clr1[2], clr1[3], clr1[4]
     local r1, g1, b1, a1 = clr[1], clr[2], clr[3], clr[4]
@@ -858,175 +823,203 @@ renderer.gradient = function(x, y, w, h, clr, clr1, vertical)
         end
     end
 end
+--endregion
 
-local function APositionSave()
-    if activityind_move_x ~= activityind_x:GetValue() or activityind_move_y ~= activityind_y:GetValue() then
-        activityind_move_x = activityind_x:GetValue()
-        activityind_move_y = activityind_y:GetValue()
+--region indicator position
+---@position_save
+local function position_save()
+    if activeind_move_x ~= activeind_x:GetValue() or activeind_move_y ~= activeind_y:GetValue() then
+        activeind_move_x = activeind_x:GetValue()
+        activeind_move_y = activeind_y:GetValue()
     end
 end
-
-local function APosition()
-    local x, y = ADragMenu(activityind_move_x, activityind_move_y, 150, 30)
+---@position_save2
+local function position_save2()
+    local x = keybinds_x:GetValue()
+    local y = keybinds_y:GetValue()
+    if keyingsind_offset_tx ~= x or keyingsind_offset_ty ~= y then
+        keyingsind_offset_tx = x
+        keyingsind_offset_ty = y
+    end
+end
+---@active weapon indicator position
+local function activeind_position()
+    local x, y = drag_indicator(activeind_move_x, activeind_move_y, 150, 30)
     return x, y
 end
+--endregion
 
+--region decoding svg
+---@create texture
 local function CreateTexture(svg)
     return draw.CreateTexture(common.RasterizeSVG(svg))
 end
+--endregion
 
---weapon id
+--region weapon id
 local weapon_id = {
-    [1] = CreateTexture(wicon["deagle"][3]),
-    [2] = CreateTexture(wicon["elite"][3]),
-    [3] = CreateTexture(wicon["fiveseven"][3]),
-    [4] = CreateTexture(wicon["glock"][3]),
-    [7] = CreateTexture(wicon["ak47"][3]),
-    [8] = CreateTexture(wicon["aug"][3]),
-    [9] = CreateTexture(wicon["awp"][3]),
-    [10] = CreateTexture(wicon["famas"][3]),
-    [11] = CreateTexture(wicon["g3sg1"][3]),
-    [13] = CreateTexture(wicon["galilar"][3]),
-    [14] = CreateTexture(wicon["m249"][3]),
-    [16] = CreateTexture(wicon["m4a1"][3]),
-    [17] = CreateTexture(wicon["mac10"][3]),
-    [19] = CreateTexture(wicon["p90"][3]),
-    [23] = CreateTexture(wicon["mp5sd"][3]),
-    [24] = CreateTexture(wicon["ump45"][3]),
-    [25] = CreateTexture(wicon["xm1014"][3]),
-    [26] = CreateTexture(wicon["bizon"][3]),
-    [27] = CreateTexture(wicon["mag7"][3]),
-    [28] = CreateTexture(wicon["negev"][3]),
-    [29] = CreateTexture(wicon["sawedoff"][3]),
-    [30] = CreateTexture(wicon["tec9"][3]),
-    [31] = CreateTexture(wicon["taser"][3]),
-    [32] = CreateTexture(wicon["hkp2000"][3]),
-    [33] = CreateTexture(wicon["mp7"][3]),
-    [34] = CreateTexture(wicon["mp9"][3]),
-    [35] = CreateTexture(wicon["nova"][3]),
-    [36] = CreateTexture(wicon["p250"][3]),
-    [38] = CreateTexture(wicon["scar20"][3]),
-    [39] = CreateTexture(wicon["sg556"][3]),
-    [40] = CreateTexture(wicon["ssg08"][3]),
-    [41] = CreateTexture(wicon["knifegg"][3]),
-    [42] = CreateTexture(wicon["knife"][3]),
-    [43] = CreateTexture(wicon["flashbang"][3]),
-    [44] = CreateTexture(wicon["hegrenade"][3]),
-    [45] = CreateTexture(wicon["smokegrenade"][3]),
-    [46] = CreateTexture(wicon["molotov"][3]),
-    [47] = CreateTexture(wicon["decoy"][3]),
-    [48] = CreateTexture(wicon["incgrenade"][3]),
-    [49] = CreateTexture(wicon["c4"][3]),
-    [59] = CreateTexture(wicon["knife"][3]),
-    [60] = CreateTexture(wicon["m4a1_silencer"][3]),
-    [61] = CreateTexture(wicon["usp_silencer"][3]),
-    [63] = CreateTexture(wicon["cz75a"][3]),
-    [64] = CreateTexture(wicon["revolver"][3]),
-    [500] = CreateTexture(wicon["bayonet"][3]),
-    [505] = CreateTexture(wicon["knife_flip"][3]),
-    [506] = CreateTexture(wicon["knife_gut"][3]),
-    [507] = CreateTexture(wicon["knife_karambit"][3]),
-    [508] = CreateTexture(wicon["knife_m9_bayonet"][3]),
-    [509] = CreateTexture(wicon["knife_tactical"][3]),
-    [512] = CreateTexture(wicon["knife_falchion"][3]),
-    [514] = CreateTexture(wicon["knife_bowie"][3]),
-    [515] = CreateTexture(wicon["knife_butterfly"][3]),
-    [516] = CreateTexture(wicon["knife_push"][3]),
-    [519] = CreateTexture(wicon["knife_ursus"][3]),
-    [520] = CreateTexture(wicon["knife_gypsy_jackknife"][3]),
-    [522] = CreateTexture(wicon["knife_stiletto"][3]),
-    [523] = CreateTexture(wicon["knife_widowmaker"][3]),
-    [524] = CreateTexture(wicon["knife_t"][3])
+    [1] = CreateTexture(wpicon["deagle"][3]),
+    [2] = CreateTexture(wpicon["elite"][3]),
+    [3] = CreateTexture(wpicon["fiveseven"][3]),
+    [4] = CreateTexture(wpicon["glock"][3]),
+    [7] = CreateTexture(wpicon["ak47"][3]),
+    [8] = CreateTexture(wpicon["aug"][3]),
+    [9] = CreateTexture(wpicon["awp"][3]),
+    [10] = CreateTexture(wpicon["famas"][3]),
+    [11] = CreateTexture(wpicon["g3sg1"][3]),
+    [13] = CreateTexture(wpicon["galilar"][3]),
+    [14] = CreateTexture(wpicon["m249"][3]),
+    [16] = CreateTexture(wpicon["m4a1"][3]),
+    [17] = CreateTexture(wpicon["mac10"][3]),
+    [19] = CreateTexture(wpicon["p90"][3]),
+    [23] = CreateTexture(wpicon["mp5sd"][3]),
+    [24] = CreateTexture(wpicon["ump45"][3]),
+    [25] = CreateTexture(wpicon["xm1014"][3]),
+    [26] = CreateTexture(wpicon["bizon"][3]),
+    [27] = CreateTexture(wpicon["mag7"][3]),
+    [28] = CreateTexture(wpicon["negev"][3]),
+    [29] = CreateTexture(wpicon["sawedoff"][3]),
+    [30] = CreateTexture(wpicon["tec9"][3]),
+    [31] = CreateTexture(wpicon["taser"][3]),
+    [32] = CreateTexture(wpicon["hkp2000"][3]),
+    [33] = CreateTexture(wpicon["mp7"][3]),
+    [34] = CreateTexture(wpicon["mp9"][3]),
+    [35] = CreateTexture(wpicon["nova"][3]),
+    [36] = CreateTexture(wpicon["p250"][3]),
+    [38] = CreateTexture(wpicon["scar20"][3]),
+    [39] = CreateTexture(wpicon["sg556"][3]),
+    [40] = CreateTexture(wpicon["ssg08"][3]),
+    [41] = CreateTexture(wpicon["knifegg"][3]),
+    [42] = CreateTexture(wpicon["knife"][3]),
+    [43] = CreateTexture(wpicon["flashbang"][3]),
+    [44] = CreateTexture(wpicon["hegrenade"][3]),
+    [45] = CreateTexture(wpicon["smokegrenade"][3]),
+    [46] = CreateTexture(wpicon["molotov"][3]),
+    [47] = CreateTexture(wpicon["decoy"][3]),
+    [48] = CreateTexture(wpicon["incgrenade"][3]),
+    [49] = CreateTexture(wpicon["c4"][3]),
+    [59] = CreateTexture(wpicon["knife"][3]),
+    [60] = CreateTexture(wpicon["m4a1_silencer"][3]),
+    [61] = CreateTexture(wpicon["usp_silencer"][3]),
+    [63] = CreateTexture(wpicon["cz75a"][3]),
+    [64] = CreateTexture(wpicon["revolver"][3]),
+    [500] = CreateTexture(wpicon["bayonet"][3]),
+    [505] = CreateTexture(wpicon["knife_flip"][3]),
+    [506] = CreateTexture(wpicon["knife_gut"][3]),
+    [507] = CreateTexture(wpicon["knife_karambit"][3]),
+    [508] = CreateTexture(wpicon["knife_m9_bayonet"][3]),
+    [509] = CreateTexture(wpicon["knife_tactical"][3]),
+    [512] = CreateTexture(wpicon["knife_falchion"][3]),
+    [514] = CreateTexture(wpicon["knife_bowie"][3]),
+    [515] = CreateTexture(wpicon["knife_butterfly"][3]),
+    [516] = CreateTexture(wpicon["knife_push"][3]),
+    [519] = CreateTexture(wpicon["knife_ursus"][3]),
+    [520] = CreateTexture(wpicon["knife_gypsy_jackknife"][3]),
+    [522] = CreateTexture(wpicon["knife_stiletto"][3]),
+    [523] = CreateTexture(wpicon["knife_widowmaker"][3]),
+    [524] = CreateTexture(wpicon["knife_t"][3])
 }
---wp id end
+--endregion
 
---Get weapon
-local function GetWeapon(getLocalPlayer)
-    local active_weapon = getLocalPlayer:GetPropEntity("m_hActiveWeapon")
+--region weapon information
+---@param entity
+---@return Array
+---@return [1] weapon name
+---@return [2] weapon_ammo
+---@return [3] weapon spare ammunition
+---@return [4] weapon attack time
+local function get_weapon_info(entity)
+    local active_weapon = entity:GetPropEntity("m_hActiveWeapon")
     if not active_weapon:GetName() then
         return
     end
-    local weapon_name = string.match(active_weapon:GetName(), [[weapon_(.+)]])
-    local weapon_ammo = active_weapon:GetProp("m_iClip1")
-    local weapon_ammo2 = active_weapon:GetProp("m_iPrimaryReserveAmmoCount")
-    local weapon_attack_time = active_weapon:GetPropFloat("LocalActiveWeaponData", "m_flNextSecondaryAttack")
-    return weapon_name, weapon_ammo, weapon_ammo2, weapon_attack_time
+    local name = match(active_weapon:GetName(), [[weapon_(.+)]])
+    local ammo = active_weapon:GetProp("m_iClip1")
+    local ammo2 = active_weapon:GetProp("m_iPrimaryReserveAmmoCount")
+    local attack = active_weapon:GetPropFloat("LocalActiveWeaponData", "m_flNextSecondaryAttack")
+    return {name, ammo, ammo2, attack}
 end
+--endregion
 
---Get the correct name of the weapon
-local function MenuWeapon(var)
-    local ws = string.match(var, [["(.+)"]])
-    if ws == "Heavy Pistol" then
-        ws = "hpistol"
-    elseif ws == "Auto Sniper" then
-        ws = "asniper"
-    elseif ws == "Submachine Gun" then
-        ws = "smg"
-    elseif ws == "Light Machine Gun" then
-        ws = "lmg"
+--region aw menu current weapon
+---@param reference
+---@return aimware weapon variable name
+
+local function menu_weapon(var)
+    local wp = match(var, [["(.+)"]])
+    local wp = lower(wp)
+    if wp == "heavy pistol" then
+        return "hpistol"
+    elseif wp == "auto sniper" then
+        return "asniper"
+    elseif wp == "submachine gun" then
+        return "smg"
+    elseif wp == "light machine gun" then
+        return "lmg"
+    else
+        return wp
     end
-    local wp = string.lower(ws)
-    return wp
 end
+--endregion
 
-local function WeaponIcon(x, y, size, alpha)
+---region weapon icon of active weapon indicator
+---@param Number x  -Position
+---@param Number y  -Position
+---@param Number size   -Icon size
+---@param Number size   -Icon size
+---@param Array clr   -RGBA
+local function weapon_icon(x, y, size, clr)
     local lp = entities.GetLocalPlayer()
     if not lp then
         return
     end
-    local r, g, b = activityind_clr:GetValue()
+    local r, g, b, a = clr[1], clr[2], clr[3], clr[4]
     local wid = lp:GetWeaponID()
-    local name = GetWeapon(lp)
+    local name = get_weapon_info(lp)[1]
     if name ~= nil then
-        draw.Color(r, g, b, alpha)
+        draw.Color(r, g, b, a)
         draw.SetTexture(weapon_id[wid])
-        draw.FilledRect(x, y, x + wicon[name][1] * size, y + wicon[name][2] * size)
+        draw.FilledRect(x, y, x + wpicon[name][1] * size, y + wpicon[name][2] * size)
     end
     draw.SetTexture(nil)
 end
+--endregion
 
-local function Background(x, y, w, clr, rgb_i)
-    local r, g, b, a = clr[1], clr[2], clr[3], clr[4]
-
-    local rgb = hslToRgb((globals.CurTime() / clamp(100 - 90, 1, 100)) % 1, 1, 0.5)
+---region gradient and rilledRect
+---@param Number x  -Position
+---@param Number y  -Position
+---@param Number w  -Width
+---@param Array clr   -RGBA
+---@param t or f rgb   -Enable or not
+local function background(x, y, w, clr, _rgb)
     local gradient = renderer.gradient
+    local r, g, b, a = clr[1], clr[2], clr[3], clr[4]
+    local rgb = hslToRgb((globals.CurTime() / clamp(100 - 90, 1, 100)) % 1, 1, 0.5)
     draw.Color(r, g, b, a)
     draw.FilledRect(x, y, x + w, y + 2)
-    if rgb_i then
+    if _rgb then
         gradient(x, y, w - 1, 2, {rgb[1], rgb[2], rgb[3], a}, {rgb[2], rgb[3], rgb[1], a}, false)
     end
 end
+--endregion
 
-local function Background2(x, y, w, clr)
+---region draw text shadow
+---@param Number x  -Position
+---@param Number y  -Position
+---@param string    -string
+---@param Array clr   -RGBA
+local function text_shadow(x, y, string, clr)
     local r, g, b, a = clr[1], clr[2], clr[3], clr[4]
+    draw.Color(4, 4, 4, a)
+    draw.Text(x + 1, y + 1, string)
     draw.Color(r, g, b, a)
-    draw.FilledRect(x, y + 2, x + w, y + 18)
+    draw.Text(x, y, string)
 end
+--endregion
 
-local function Text(x, y, alpha)
-    local weapon = MenuWeapon(ragebot_accuracy_weapon:GetValue())
-    local get_hitchance = gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".hitchance")
-    local get_mindmg = gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".mindmg")
-    local r, g, b = activityind_clr4:GetValue()
-
-    local hc_text = "HC " .. get_hitchance
-    local dmg_text = "DMG " .. get_mindmg
-
-    draw.SetFont(font)
-
-    draw.Color(4, 4, 4, alpha)
-    draw.Text(x + 101, y + 26, hc_text)
-    draw.Text(x + 101, y + 37, dmg_text)
-
-    draw.Color(r, g, b, alpha)
-    local weapon_text = "activity weapon"
-    local text_x, text_y = draw.GetTextSize(weapon_text)
-    draw.Text(x + text_x * 0.5 + 0.5, y + 5, weapon_text)
-    draw.Text(x + 100, y + 25, hc_text)
-    draw.Text(x + 100, y + 36, dmg_text)
-end
-----
---split string
+---region time
+local time, bTime, sTime = {0, 0, 0}, 0, 0
+--- Split string
 local function split_string(inputstr, sep)
     local t = {}
     for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
@@ -1034,7 +1027,8 @@ local function split_string(inputstr, sep)
     end
     return t
 end
---Get time
+
+--- Network access time
 callbacks.Register(
     "Draw",
     "get_time",
@@ -1042,9 +1036,10 @@ callbacks.Register(
         local lp = entities.GetLocalPlayer()
         if sTime == 0 or ((sTime + 1200 < common.Time()) and (lp == nil or not lp:IsAlive())) then
             --local data = http.Get("http://time.tianqi.com/")
-            --local data = string.match(data, [[<p id="local">(.-)</p>]])
+            --local data = match(data, [[<p id="local">(.-)</p>]])
+            --if data ~= nil then
+            --for i, str in pairs(split_string(match(data, [[ (........)]]), ":")) do
             local data = http.Get("https://time.is/")
-            --[[ (........)]]
             if data ~= nil then
                 for i, str in pairs(split_string(string.match(data, [[<time id="clock">(.-)</time>]]), ":")) do
                     time[i] = tonumber(str)
@@ -1066,8 +1061,12 @@ callbacks.Register(
         end
     end
 )
+
 --return timt
-local function GetTimt()
+---@return h    -hour
+---@return m    -minute
+---@return s    -second
+local function get_timt()
     local time =
         string.format(
         "%s:%s:%s",
@@ -1077,10 +1076,15 @@ local function GetTimt()
     )
     return time
 end
+--endregion
 
---Get server ip
-local function GetServerIP(localplayer)
-    if localplayer then
+---region get server ip
+---@param t or f
+---@return localhost
+---@return valve
+---@return server ip
+local function get_server_ip(object)
+    if object then
         local server = engine.GetServerIP()
         if (server == "loopback") then
             return "localhost"
@@ -1091,268 +1095,106 @@ local function GetServerIP(localplayer)
         end
     end
 end
---Get delay
-local function GetDelay(localplayer)
-    if localplayer then
-        local delay = entities.GetPlayerResources():GetPropInt("m_iPing", localplayer:GetIndex())
-        return delay
-    end
-end
---Get name
-local function GetName(localplayer)
-    if localplayer then
-        local indexlp = client.GetLocalPlayerIndex()
-        local name = client.GetPlayerNameByIndex(indexlp)
-        return name
-    else
-        local name = client.GetConVar("name")
-        return name
-    end
-end
---return x y
-local function GetWatermarkXY()
-    local x, y = watermark_x:GetValue(), watermark_y:GetValue()
-    return x, y
-end
+--endregion
 
---On draw Watermark
-local function WatermarkText(x, y)
-    local lp = entities.GetLocalPlayer()
+---region get delay
+---@param entity
+local function get_delay(entity)
+    if entity then
+        local pr = entities.GetPlayerResources()
+        return pr:GetPropInt("m_iPing", entity:GetIndex())
+    end
+end
+--endregion
+
+---region get delay
+---@param entity
+local function get_name(localplayer)
+    if localplayer then
+        local lp_index = client.GetLocalPlayerIndex()
+        local n = client.GetPlayerNameByIndex(lp_index)
+        return n
+    else
+        local n = client.GetConVar("name")
+        return n
+    end
+end
+--endregion
+
+---region text
+local font = draw.CreateFont("Verdana", 12)
+--- watermark
+local tick = client.GetConVar("sv_maxcmdrate")
+local function watermark_text(x, y, pattern)
     local divider = " | "
-    local cheat_name = "aimware"
-    local name = GetName(lp)
-    local time = GetTimt()
+    local cheat = "aimware"
+    local name = get_name(pattern)
+    local time = get_timt()
+    local text = cheat .. divider .. name
 
-    local watermark_text = cheat_name .. divider .. name
-
-    if lp then
-        local delay = "delay:" .. GetDelay(lp) .. "ms"
-        local ip = GetServerIP(lp)
+    if pattern then
+        local delay = "delay:" .. get_delay(pattern) .. "ms"
+        local ip = get_server_ip(pattern)
         local tick = tick .. "tick"
-        watermark_text = watermark_text .. divider .. delay .. divider .. ip .. divider .. tick
+        text = text .. divider .. delay .. divider .. ip .. divider .. tick
     end
-    local watermark_text = watermark_text .. divider .. time
-    return watermark_text
-end
-----
-
--------------------------------------preparation end
--------------------------------------on draw
---On draw watermark
-local function OnDrawWm(alpha)
-    local x, y = GetWatermarkXY()
-    draw.SetFont(font)
-    local text = WatermarkText(x, y)
-    local w, h = draw.GetTextSize(text)
-    local x = x - w
-
-    local rgb = watermark_rgb:GetValue()
-    local r, g, b, a = watermark_clr:GetValue()
-    Background(x, y, w + 10, {r, g, b, a * alpha / 255}, rgb)
-    local r, g, b, a = watermark_clr3:GetValue()
-    Background2(x, y, w + 10, {r, g, b, a * alpha / 255})
-
-    local r, g, b, a = watermark_clr2:GetValue()
-    draw.Color(r, g, b, a * alpha / 255)
-    draw.Text(x + 5, y + 6, text)
-    draw.Text(x + 5, y + 6, text)
-end
---On draw activity ind
-local function OnDrawWA(alpha)
-    local x, y = APosition()
-
-    local r, g, b, a = activityind_clr2:GetValue()
-    local rgb = activityind_rgb:GetValue()
-    Background(x, y, 150, {r, g, b, a * alpha / 255}, rgb)
-
-    local r, g, b, a = activityind_clr3:GetValue()
-    Background2(x, y, 150, {r, g, b, a * alpha / 255})
-
-    WeaponIcon(x + 5, y + 25, 0.6, alpha)
-    Text(x, y, alpha)
+    local text = text .. divider .. time
+    return text
 end
 
--------------------------------------draw end
+--- keybinds
+local keybinds_alpha = 0
+local keybinds_alpha2 = 0
+local keybinds_onshot_alpha = 0
+local keybinds_doublefire_alpha = 0
+local keybinds_slow_alpha = 0
+local keybinds_fakecrouch_alpha = 0
+local keybinds_lby_alpha = 0
+local keybinds_trg_alpha = 0
+local keybinds_speedburst_alpha = 0
 
--------------------------------------callbacks
-callbacks.Register(
-    "Draw",
-    function()
-        GuiSet()
-
-        local fade_factor = ((1.0 / 0.15) * globals.FrameTime()) * 250
-        local lp = entities.GetLocalPlayer()
-
-        if lp and lp:IsAlive() and activityind:GetValue() then
-            activity_alpha = AlphaStop(activity_alpha + fade_factor, 0, 255)
-        else
-            activity_alpha = AlphaStop(activity_alpha - fade_factor, 0, 255)
-        end
-        if activity_alpha ~= 0 then
-            APositionSave()
-            OnDrawWA(activity_alpha)
-        end
-
-        if watermark:GetValue() then
-            watermark_alpha = AlphaStop(watermark_alpha + fade_factor, 0, 255)
-        else
-            watermark_alpha = AlphaStop(watermark_alpha - fade_factor, 0, 255)
-        end
-        if watermark_alpha ~= 0 then
-            OnDrawWm(watermark_alpha)
-        end
-    end
-)
--------------------------------------end
---Because I'm very lazy and don't want to write again, so I add it directly
---[[
-Working on aimware
-by qi
-]]
---var
-
-local tX, tY, offsetX, offsetY, _drag
-local alpha = 0
-local alpha2 = 0
-local hsalpha = 0
-local dtalpha = 0
-local swalpha = 0
-local fdalpha = 0
-local lbyalpha = 0
-local trgalpha = 0
-local sbalpha = 0
-
-local tick = client.GetConVar("sv_maxcmdrate") .. " tick"
-local time, bTime, sTime = {0, 0, 0}, 0, 0
-local divider = " | "
-local cheatName = "aimware"
-
---gui
-local keybinds = gui.Checkbox(reference, "keyingsind", "Show Keyings", 1)
-local keybinds_rgb = gui.Checkbox(keybinds, "rgb", "rgb", 0)
---clr
-local keybinds_clr = gui.ColorPicker(keybinds, "clr", "clr", 131, 109, 221, 255)
-local keybinds_clr2 = gui.ColorPicker(keybinds, "clr2", "clr2", 255, 255, 255, 255)
-local keybinds_clr3 = gui.ColorPicker(keybinds, "clr3", "clr3", 0, 0, 0, 100)
---x,y
-local keybinds_x = gui.Slider(keybinds, "x", "x", 300, 0, x)
-local keybinds_y = gui.Slider(keybinds, "y", "y", 400, 0, y)
---set
-keybinds:SetDescription("Displays the active binding key.")
-keybinds_rgb:SetInvisible(true)
-keybinds_x:SetInvisible(true)
-keybinds_y:SetInvisible(true)
-
-local function SetGui(a, b, x, y, w, h)
-    local keybinds = keybinds:GetValue()
-    keybinds_clr:SetInvisible(not keybinds)
-    keybinds_clr2:SetInvisible(not keybinds)
-    keybinds_clr3:SetInvisible(not keybinds)
-end
-
---Mouse drag
-local function is_inside(a, b, x, y, w, h)
-    return a >= x and a <= w and b >= y and b <= h
-end
-
-local function drag_menu(x, y, w, h)
-    if not menu:IsActive() then
-        return tX, tY
-    end
-    local mouse_down = input.IsButtonDown(1)
-    if mouse_down then
-        local X, Y = input.GetMousePos()
-        if not _drag then
-            local w, h = x + w, y + h
-            if is_inside(X, Y, x, y, w, h) then
-                offsetX, offsetY = X - x, Y - y
-                _drag = true
-            end
-        else
-            tX, tY = X - offsetX, Y - offsetY
-            keybinds_x:SetValue(tX)
-            keybinds_y:SetValue(tY)
-        end
-    else
-        _drag = false
-    end
-    return tX, tY
-end
-
---renderer text
-renderer.text = function(x, y, clr, shadow, string, font, flags)
-    local alpha = 255
-    if font then
-        draw.SetFont(font)
-    end
-    local textW, textH = draw.GetTextSize(string)
-    if clr[4] then
-        alpha = clr[4]
-    end
-    if flags == "l" then
-        x = x - textW
-    elseif flags == "r" then
-        x = x + textW
-    elseif flags == "lc" then
-        x = x - (textW / 2)
-    elseif flags == "rc" then
-        x = x + (textW / 2)
-    end
-    if shadow then
-        draw.Color(0, 0, 0, alpha)
-        draw.Text(x + 1, y + 1, string)
-    end
-    draw.Color(clr[1], clr[2], clr[3], alpha)
-    draw.Text(x, y, string)
-end
-
---Let drag position save
-local function position_save()
-    local x = keybinds_x:GetValue()
-    local y = keybinds_y:GetValue()
-    if tX ~= x or tY ~= y then
-        tX = x
-        tY = y
-    end
-end
---On draw Keybinds
-local function OnKeybinds()
-    local wid = entities.GetLocalPlayer():GetWeaponID()
-
-    local x, y = drag_menu(tX, tY, 120, 30)
+local function keybinds_text(x, y, fade, var)
     local r, g, b, a = 255, 255, 255, 255
-    local rgb = hslToRgb((globals.CurTime() / clamp(100 - 90, 1, 100)) % 1, 1, 0.5)
-    local r2, g2, b2, a2 = keybinds_clr:GetValue()
-    local r3, g3, b3, a3 = keybinds_clr3:GetValue()
-    local r4, g4, b4, a4 = keybinds_clr2:GetValue()
-    local fade_factor = ((1.0 / 0.15) * globals.FrameTime()) * 250
-    local i = 0
-    local xi = 0
+    local keybinds_y_i = 0
+    local keybinds_x_i = 0
+    local keybinds = keybinds:GetValue()
+    draw.SetFont(font)
 
-    local DT_Wp = MenuWeapon(ragebot_accuracy_weapon:GetValue())
-    local rbot_m = gui.GetValue("rbot.master")
-    local onshot = gui.GetValue("rbot.antiaim.condition.shiftonshot")
+    ---region rbot function
+    local rbot = gui.GetValue("rbot.master")
+
+    --- Antiaim lby
     local lby = gui.GetValue("rbot.antiaim.base.lby")
-    local sw_key = gui.GetValue("rbot.accuracy.movement.slowkey")
-    local fd_key = gui.GetValue("rbot.antiaim.extra.fakecrouchkey")
-
-    local lbot_m = gui.GetValue("lbot.master")
-    local trg = gui.GetValue("lbot.trg.enable")
-    local trg_key = gui.GetValue("lbot.trg.key")
-    local trg_auto = gui.GetValue("lbot.trg.autofire")
-
-    local misc_m = gui.GetValue("misc.master")
-    local sb = gui.GetValue("misc.speedburst.enable")
-    local sb_key = gui.GetValue("misc.speedburst.key")
-
-    if rbot_m and onshot then
-        hsalpha = AlphaStop(hsalpha + fade_factor, 0, a)
+    if rbot and var and lby < 0 then
+        keybinds_lby_alpha = clamp(keybinds_lby_alpha + fade, 0, a)
     else
-        hsalpha = AlphaStop(hsalpha - fade_factor, 0, a)
+        keybinds_lby_alpha = clamp(keybinds_lby_alpha - fade, 0, a)
+    end
+    if keybinds_lby_alpha ~= 0 then
+        keybinds_x_i = 20
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Anti-aim inverter", {r, g, b, keybinds_lby_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[toggled]", {r, g, b, keybinds_lby_alpha})
+        keybinds_y_i = keybinds_y_i + 15
     end
 
+    --- Shift on shot
+    local onshot = gui.GetValue("rbot.antiaim.condition.shiftonshot")
+    if rbot and var and onshot then
+        keybinds_onshot_alpha = clamp(keybinds_onshot_alpha + fade, 0, a)
+    else
+        keybinds_onshot_alpha = clamp(keybinds_onshot_alpha - fade, 0, a)
+    end
+    if keybinds_onshot_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Hide shots", {r, g, b, keybinds_onshot_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[toggled]", {r, g, b, keybinds_onshot_alpha})
+        keybinds_y_i = keybinds_y_i + 15
+    end
+
+    --- Double fire
+    local wid = entities.GetLocalPlayer():GetWeaponID()
+    local weapon = menu_weapon(ragebot_accuracy_weapon:GetValue())
     if
-        rbot_m and
+        rbot and var and
             (wid == 1 or wid == 2 or wid == 3 or wid == 4 or wid == 30 or wid == 32 or wid == 36 or wid == 61 or wid == 63 or wid == 7 or wid == 8 or
                 wid == 10 or
                 wid == 13 or
@@ -1374,118 +1216,219 @@ local function OnKeybinds()
                 wid == 27 or
                 wid == 29 or
                 wid == 35) and
-            gui.GetValue("rbot.accuracy.weapon." .. DT_Wp .. ".doublefire") > 0
+            gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".doublefire") > 0
      then
-        dtalpha = AlphaStop(dtalpha + fade_factor, 0, a)
+        keybinds_doublefire_alpha = clamp(keybinds_doublefire_alpha + fade, 0, a)
     else
-        dtalpha = AlphaStop(dtalpha - fade_factor, 0, a)
+        keybinds_doublefire_alpha = clamp(keybinds_doublefire_alpha - fade, 0, a)
+    end
+    if keybinds_doublefire_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Double fire", {r, g, b, keybinds_doublefire_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[toggled]", {r, g, b, keybinds_doublefire_alpha})
+        keybinds_y_i = keybinds_y_i + 15
     end
 
-    if rbot_m and sw_key ~= 0 and input.IsButtonDown(sw_key) then
-        swalpha = AlphaStop(swalpha + fade_factor, 0, a)
+    --- Slow key
+    local slow_key = gui.GetValue("rbot.accuracy.movement.slowkey")
+    if rbot and var and slow_key ~= 0 and input.IsButtonDown(slow_key) then
+        keybinds_slow_alpha = clamp(keybinds_slow_alpha + fade, 0, a)
     else
-        swalpha = AlphaStop(swalpha - fade_factor, 0, a)
+        keybinds_slow_alpha = clamp(keybinds_slow_alpha - fade, 0, a)
+    end
+    if keybinds_slow_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Slow walk", {r, g, b, keybinds_slow_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[holding]", {r, g, b, keybinds_slow_alpha})
+        keybinds_y_i = keybinds_y_i + 15
     end
 
-    if rbot_m and fd_key ~= 0 and input.IsButtonDown(fd_key) then
-        fdalpha = AlphaStop(fdalpha + fade_factor, 0, a)
+    --- Fakecrouch key
+    local fakecrouch_key = gui.GetValue("rbot.antiaim.extra.fakecrouchkey")
+    if rbot and var and fakecrouch_key ~= 0 and input.IsButtonDown(fakecrouch_key) then
+        keybinds_fakecrouch_alpha = clamp(keybinds_fakecrouch_alpha + fade, 0, a)
     else
-        fdalpha = AlphaStop(fdalpha - fade_factor, 0, a)
+        keybinds_fakecrouch_alpha = clamp(keybinds_fakecrouch_alpha - fade, 0, a)
     end
+    if keybinds_fakecrouch_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Fake duck", {r, g, b, keybinds_fakecrouch_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[holding]", {r, g, b, keybinds_fakecrouch_alpha})
+        keybinds_y_i = keybinds_y_i + 15
+    end
+    --endregion
 
-    if rbot_m and lby < 0 then
-        lbyalpha = AlphaStop(lbyalpha + fade_factor, 0, a)
+    ---region lbot function
+    local lbot = gui.GetValue("lbot.master")
+
+    --- Triggerbot
+    local trg = gui.GetValue("lbot.trg.enable")
+    local trg_key = gui.GetValue("lbot.trg.key")
+    local trg_autofire = gui.GetValue("lbot.trg.autofire")
+    if lbot and var and trg and trg_key ~= 0 and input.IsButtonDown(trg_key) then
+        keybinds_trg_alpha = clamp(keybinds_trg_alpha + fade, 0, a)
+    elseif lbot and trg and trg_autofire then
+        keybinds_trg_alpha = clamp(keybinds_trg_alpha + fade, 0, a)
     else
-        lbyalpha = AlphaStop(lbyalpha - fade_factor, 0, a)
+        keybinds_trg_alpha = clamp(keybinds_trg_alpha - fade, 0, a)
     end
+    if keybinds_trg_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Trigger", {r, g, b, keybinds_trg_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[holding]", {r, g, b, keybinds_trg_alpha})
+        keybinds_y_i = keybinds_y_i + 15
+    end
+    --endregion
 
-    if lbot_m and trg and trg_key ~= 0 and input.IsButtonDown(trg_key) then
-        trgalpha = AlphaStop(trgalpha + fade_factor, 0, a)
-    elseif lbot_m and trg and trg_auto then
-        trgalpha = AlphaStop(trgalpha + fade_factor, 0, a)
+    ---region misc function
+    local misc = gui.GetValue("misc.master")
+    --- Triggerbot
+    local speedburst = gui.GetValue("misc.speedburst.enable")
+    local speedburst_key = gui.GetValue("misc.speedburst.key")
+    if misc and var and speedburst and speedburst_key ~= 0 and input.IsButtonDown(speedburst_key) then
+        keybinds_speedburst_alpha = clamp(keybinds_speedburst_alpha + fade, 0, a)
     else
-        trgalpha = AlphaStop(trgalpha - fade_factor, 0, a)
+        keybinds_speedburst_alpha = clamp(keybinds_speedburst_alpha - fade, 0, a)
     end
+    if keybinds_speedburst_alpha ~= 0 then
+        text_shadow(x + 5, y + 25 + keybinds_y_i, "Speed burst", {r, g, b, keybinds_speedburst_alpha})
+        text_shadow(x + 80 + keybinds_x_i, y + 25 + keybinds_y_i, "[holding]", {r, g, b, keybinds_speedburst_alpha})
+        keybinds_y_i = keybinds_y_i + 15
+    end
+    --endregion
+    return keybinds_x_i, keybinds_y_i
+end
 
-    if misc_m and sb and sb_key ~= 0 and input.IsButtonDown(sb_key) then
-        sbalpha = AlphaStop(sbalpha + fade_factor, 0, a)
+--- Active weapon text
+local function active_weapon_text(x, y, clr)
+    local weapon = menu_weapon(ragebot_accuracy_weapon:GetValue())
+    local hitchance = gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".hitchance")
+    local mindmg = gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".mindmg")
+    local r, g, b, a = clr[1], clr[2], clr[3], clr[4]
+
+    local hc_text = "HC " .. hitchance
+    local dmg_text = "DMG " .. mindmg
+
+    draw.SetFont(font)
+    local weapon_text = "activity weapon"
+    local text_x, text_y = draw.GetTextSize(weapon_text)
+    text_shadow(x + text_x * 0.5 + 0.5, y + 5, weapon_text, {r, g, b, a})
+    text_shadow(x + 100, y + 25, hc_text, {r, g, b, a})
+    text_shadow(x + 100, y + 36, dmg_text, {r, g, b, a})
+end
+--endregion
+
+---region on draw
+--- On draw watermark
+local function on_draw_watermark(alpha, pattern)
+    draw.SetFont(font)
+    local x, y = watermark_x:GetValue(), watermark_y:GetValue()
+    local text = watermark_text(x, y, pattern)
+    local w, h = draw.GetTextSize(text)
+    local x = x - w
+
+    local rgb = watermark_rgb:GetValue()
+    local r, g, b, a = watermark_clr:GetValue()
+    background(x, y, w + 10, {r, g, b, a * alpha / 255}, rgb)
+
+    local r, g, b, a = watermark_clr3:GetValue()
+    renderer.rectangle(x, y + 2, w + 10, 16, {r, g, b, a * alpha / 255}, true)
+
+    local r, g, b, a = watermark_clr2:GetValue()
+    draw.Color(r, g, b, a * alpha / 255)
+    draw.Text(x + 5, y + 6, text)
+    draw.Text(x + 5, y + 6, text)
+end
+
+--- On draw keybinds indicator
+local function on_draw_keybinds()
+    local fade_factor = ((1.0 / 0.15) * globals.FrameTime()) * 250
+    local x, y = drag_indicator2(keyingsind_offset_tx, keyingsind_offset_ty, 120, 30)
+    local keybinds = keybinds:GetValue()
+    local lp = entities.GetLocalPlayer()
+
+    local x_i, y_i = keybinds_text(x, y, fade_factor, lp:IsAlive() and keybinds)
+    if lp:IsAlive() and keybinds and (y_i > 0 or menu:IsActive()) then
+        keybinds_alpha = clamp(keybinds_alpha + fade_factor, 0, 255)
     else
-        sbalpha = AlphaStop(sbalpha - fade_factor, 0, a)
+        keybinds_alpha = clamp(keybinds_alpha - fade_factor, 0, 255)
     end
-
-    if lbyalpha ~= 0 then
-        xi = 20
-        renderer.text(x + 5, y + 25 + i, {r, g, b, lbyalpha}, true, "Anti-aim inverter", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, lbyalpha}, true, "[toggled]", font)
-        i = i + 15
-    end
-
-    if hsalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, hsalpha}, true, "Hide shots", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, hsalpha}, true, "[toggled]", font)
-        i = i + 15
-    end
-
-    if dtalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, dtalpha}, true, "Double fire", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, dtalpha}, true, "[toggled]", font)
-        i = i + 15
-    end
-
-    if swalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, swalpha}, true, "Slow walk", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, swalpha}, true, "[holding]", font)
-        i = i + 15
-    end
-
-    if fdalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, fdalpha}, true, "Fake duck", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, fdalpha}, true, "[holding]", font)
-        i = i + 15
-    end
-
-    if trgalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, trgalpha}, true, "Trigger", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, trgalpha}, true, "[holding]", font)
-        i = i + 15
-    end
-
-    if sbalpha ~= 0 then
-        renderer.text(x + 5, y + 25 + i, {r, g, b, sbalpha}, true, "Speed burst", font)
-        renderer.text(x + 80 + xi, y + 25 + i, {r, g, b, sbalpha}, true, "[holding]", font)
-        i = i + 15
-    end
-
-    if i > 0 or menu:IsActive() then
-        alpha = AlphaStop(alpha + fade_factor, 0, 255)
+    if lp:IsAlive() and keybinds and x_i ~= 0 and keybinds then
+        keybinds_alpha2 = clamp(keybinds_alpha2 + fade_factor, 0, 60)
     else
-        alpha = AlphaStop(alpha - fade_factor, 0, 255)
+        keybinds_alpha2 = clamp(keybinds_alpha2 - fade_factor, 0, 60)
     end
+    local r, g, b, a = keybinds_clr3:GetValue()
+    if keybinds_alpha ~= 0 then
+        renderer.rectangle(x, y + 2, 130 + keybinds_alpha2 * 0.3, 18, {r, g, b, keybinds_alpha * a / 255}, true)
 
-    if xi ~= 0 then
-        alpha2 = AlphaStop(alpha2 + fade_factor, 0, 60)
-    else
-        alpha2 = AlphaStop(alpha2 - fade_factor, 0, 60)
-    end
+        local r, g, b, a = keybinds_clr2:GetValue()
+        text_shadow(x + 45 + (keybinds_alpha2 * 0.3 * 0.5), y + 5, "keybinds", {r, g, b, keybinds_alpha})
 
-    renderer.rectangle(x, y + 2, 130 + alpha2 * 0.3, 18, {r3, g3, b3, alpha * a3 / 255}, true)
-    renderer.rectangle(x, y, 130 + alpha2 * 0.3, 2, {r2, g2, b2, alpha * a2 / 255}, true)
-    renderer.text(x + 45 + (alpha2 * 0.3 * 0.5), y + 5, {r4, g4, b4, alpha}, true, "keybinds", font)
-
-    if keybinds_rgb:GetValue() then
-        renderer.gradient(x, y, 129 + alpha2 * 0.3, 2, {rgb[1], rgb[2], rgb[3], alpha}, {rgb[2], rgb[3], rgb[1], alpha}, false)
+        local r, g, b, a = keybinds_clr:GetValue()
+        local rgb = keybinds_rgb:GetValue()
+        background(x, y, 129 + keybinds_alpha2 * 0.3, {r, g, b, keybinds_alpha * a / 255}, rgb)
     end
 end
 
---Callbacks
+--- On draw active weapon indicator
+local function on_draw_activeind(alpha)
+    local x, y = activeind_position()
+
+    local r, g, b, a = activeind_clr:GetValue()
+    local rgb = activeind_rgb:GetValue()
+    background(x, y, 150, {r, g, b, a * alpha / 255}, rgb)
+
+    local r, g, b, a = activeind_clr3:GetValue()
+    renderer.rectangle(x, y + 2, 150, 18, {r, g, b, a * alpha / 255}, true)
+
+    local r, g, b, a = activeind_clr4:GetValue()
+    weapon_icon(x + 5, y + 25, 0.6, {r, g, b, a * alpha / 255})
+
+    local r, g, b, a = activeind_clr2:GetValue()
+    active_weapon_text(x, y, {r, g, b, a * alpha / 255})
+end
+--endregion
+
+---region callbacks
+local activity_alpha = 0
+local watermark_alpha = 0
+local keybinds_alpha = 0
 callbacks.Register(
     "Draw",
     function()
-        SetGui()
-        if entities.GetLocalPlayer() and keybinds:GetValue() then
+        gui_set_invisible()
+
+        local fade_factor = ((1.0 / 0.15) * globals.FrameTime()) * 250
+        local lp = entities.GetLocalPlayer()
+
+        --- active weapon indicator
+        if lp and lp:IsAlive() and activeind:GetValue() then
+            activity_alpha = clamp(activity_alpha + fade_factor, 0, 255)
+        else
+            activity_alpha = clamp(activity_alpha - fade_factor, 0, 255)
+        end
+        if activity_alpha ~= 0 then
             position_save()
-            OnKeybinds()
+            on_draw_activeind(activity_alpha)
+        end
+
+        --- watermark
+        if watermark:GetValue() then
+            watermark_alpha = clamp(watermark_alpha + fade_factor, 0, 255)
+        else
+            watermark_alpha = clamp(watermark_alpha - fade_factor, 0, 255)
+        end
+        if watermark_alpha ~= 0 then
+            on_draw_watermark(watermark_alpha, lp)
+        end
+
+        --- keybinds
+        if lp:IsAlive() and keybinds:GetValue() then
+            keybinds_alpha = clamp(keybinds_alpha + fade_factor, 0, 255)
+        else
+            keybinds_alpha = clamp(keybinds_alpha - fade_factor, 0, 255)
+        end
+        if keybinds_alpha ~= 0 then
+            position_save2()
+            on_draw_keybinds()
         end
     end
 )
---end
+--endregion
