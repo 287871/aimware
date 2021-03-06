@@ -162,16 +162,16 @@ local string_find,
 local imagepack_lib_installed = false
 file.Enumerate(
     function(filename)
-        if filename == "imagepack_icons.lua" then
+        if filename == "libraries/imagepack_icons.lua" then
             imagepack_lib_installed = true
         end
     end
 )
 if not imagepack_lib_installed then
-    http.Get(
+    http_Get(
         "https://raw.githubusercontent.com/287871/aimware/main/imagepack_icons.lua",
         function(ctx) --Network cache from Yukine
-            file.Write("imagepack_icons.lua", ctx)
+            file.Write("libraries/imagepack_icons.lua", ctx)
             network_error = ctx
         end
     )
@@ -181,6 +181,18 @@ end
 --region require
 --@require come from Yukine https://aimware.net/forum/user/366321
 local function require(filename)
+    local require_inspect_file = false
+    file.Enumerate(
+        function(filename_inspect)
+            if filename_inspect == filename .. ".lua" then
+                require_inspect_file = true
+            end
+        end
+    )
+    if not require_inspect_file then
+        error(filename .. ".lua library is required")
+        return
+    end
     local res = file.Open(filename .. ".lua", "r")
     if res then
         local buf = res:Read()
@@ -189,13 +201,12 @@ local function require(filename)
     end
     return nil
 end
-
 local function waiting_download()
     if not pcall(gui.GetValue, "rbot.accuracy.custom.hicdmg.ind") then
         if network_error == "error" then
             draw.Color(255, 0, 0, 255)
             draw.Text(0, 0, GetScriptName() .. "  Can't link to github")
-        elseif not pcall(require, "imagepack_icons") then
+        elseif not pcall(require, "libraries/imagepack_icons") then
             draw.Color(255, 255, 255, 255)
             draw.Text(0, 0, GetScriptName() .. "  Please wait to download the icon library")
         else
@@ -207,7 +218,7 @@ local function waiting_download()
 end
 callbacks.Register("Draw", waiting_download)
 
-local csgo_weapons = require "imagepack_icons"
+local csgo_weapons = require "libraries/imagepack_icons"
 --endregion
 
 --region menu_weapon
@@ -636,6 +647,18 @@ local function CreateTexture(svg)
 end
 --endregion
 
+--region simple stop
+local function clamp(val, min, max)
+    if (val > max) then
+        return max
+    elseif (val < min) then
+        return min
+    else
+        return val
+    end
+end
+--endregion
+
 --region weapon id
 local weapon_id = {
     [1] = CreateTexture(csgo_weapons["deagle"][3]),
@@ -701,6 +724,9 @@ local weapon_id = {
 }
 
 local function get_weapon_name(entity)
+    if not entity then
+        return
+    end
     local active_weapon = entity:GetPropEntity("m_hActiveWeapon")
     if not active_weapon:GetName() then
         return
@@ -752,7 +778,7 @@ local function hd_mode()
     elseif mindmg == mindmg_ove then
         mindmg_text = "[override]"
     elseif mindmg == mindmg_air then
-        mindmg_text = "[inair]"
+        mindmg_text = "[in air]"
     else
         mindmg_text = "[auto wall]"
     end
@@ -761,14 +787,8 @@ end
 
 --ind
 local font = draw.CreateFont("Verdana", 12)
-local function on_draw_ind(x, y)
-    local lp = entities_GetLocalPlayer()
-    if not lp then
-        return
-    end
-
+local function on_ind(x, y, alpha, weapon)
     local rgb = custom_hd_ind_rgb:GetValue()
-    local weapon = menu_weapon(reference:GetValue())
     local hitchance = gui.GetValue("rbot.accuracy.weapon." .. weapon .. ".hitchance")
     local hitchance_mode = hd_mode()[1]
 
@@ -776,57 +796,98 @@ local function on_draw_ind(x, y)
     local mindmg_mode = hd_mode()[2]
 
     local r, g, b, a_ = custom_hd_ind_clr3:GetValue()
-    draw.Color(r, g, b, a_)
+    draw.Color(r, g, b, a_ * alpha / 255)
     draw.FilledRect(x, y + 2, x + 150, y + 18)
 
     local r, g, b, a = custom_hd_ind_clr:GetValue()
     if a_ ~= 0 then
-        background(x, y, 150, 2, {r, g, b, a}, rgb)
+        background(x, y, 150, 2, {r, g, b, a * alpha / 255}, rgb)
     end
 
-    background(x + 10, y + 52, mindmg * 1.04, 2, {r, g, b, a * 0.4}, rgb)
-    background(x + 10, y + 35, hitchance * 1.25, 2, {r, g, b, a * 0.4}, rgb)
+    background(x + 10, y + 52, mindmg * 1.04, 2, {r, g, b, a * 0.4 * alpha / 255}, rgb)
+    background(x + 10, y + 35, hitchance * 1.25, 2, {r, g, b, a * 0.4 * alpha / 255}, rgb)
 
-    draw.Color(r, g, b, a)
+    draw.Color(r, g, b, a * alpha / 255)
     draw.FilledRect(x + 2, y + 20, x + 4, y + 35)
     draw.FilledRect(x + 2, y + 37, x + 4, y + 52)
-    draw.FilledRect(x + 2, y + 54, x + 4, y + 69)
 
     local r, g, b, a = custom_hd_ind_clr2:GetValue()
 
     draw.SetFont(font)
     local hc_mode_w = draw.GetTextSize(hitchance_mode)
     if a_ ~= 0 then
-        text_shadow(x + 52, y + 5, "htc & dmg", {r, g, b, a})
+        text_shadow(x + 52, y + 5, "htc & dmg", {r, g, b, a * alpha / 255})
     end
-    text_shadow(x + 6, y + 24, "hit chance:" .. hitchance .. "%", {r, g, b, a})
-    text_shadow(x + 145 - hc_mode_w, y + 24, hitchance_mode, {r, g, b, a})
+    text_shadow(x + 6, y + 24, "hit chance:" .. hitchance .. "%", {r, g, b, a * alpha / 255})
+    text_shadow(x + 145 - hc_mode_w, y + 24, hitchance_mode, {r, g, b, a * alpha / 255})
 
     local dmg_mode_w = draw.GetTextSize(mindmg_mode)
-    text_shadow(x + 6, y + 40, "min dmg:" .. ((mindmg > 100) and ("hp+" .. (mindmg - 100)) or mindmg), {r, g, b, a})
-    text_shadow(x + 145 - dmg_mode_w, y + 40, mindmg_mode, {r, g, b, a})
+    text_shadow(x + 6, y + 40, "min dmg:" .. ((mindmg > 100) and ("hp+" .. (mindmg - 100)) or mindmg), {r, g, b, a * alpha / 255})
+    text_shadow(x + 145 - dmg_mode_w, y + 40, mindmg_mode, {r, g, b, a * alpha / 255})
+end
 
-    local wp_name = get_weapon_name(lp)
-    local wid = lp:GetWeaponID()
-    text_shadow(x + 6, y + 56, "weapon:", {r, g, b, a})
+--Icon
+local function on_Icon(x, y, alpha, entity, weapon)
+    if not entity then
+        return
+    end
+    local wp_name = get_weapon_name(entity)
+    local wid = entity:GetWeaponID()
+    if not wid then
+        return
+    end
+
+    local r, g, b, a = custom_hd_ind_clr:GetValue()
+    draw.Color(r, g, b, a * alpha / 255)
+    draw.FilledRect(x + 2, y + 54, x + 4, y + 69)
+
+    local r, g, b, a = custom_hd_ind_clr2:GetValue()
+    text_shadow(x + 6, y + 56, "weapon:", {r, g, b, a * alpha / 255})
     draw.SetTexture(weapon_id[wid])
     draw.FilledRect(x + 50, y + 56, (x + 50) + csgo_weapons[wp_name][1] * 0.4, (y + 56) + csgo_weapons[wp_name][2] * 0.4)
     draw.SetTexture(nil)
     local menu_wp_w = draw.GetTextSize("[" .. weapon .. "]")
-    text_shadow(x + 145 - menu_wp_w, y + 56, "[" .. weapon .. "]", {r, g, b, a})
+    text_shadow(x + 145 - menu_wp_w, y + 56, "[" .. weapon .. "]", {r, g, b, a * alpha / 255})
+end
+
+--on draw
+local function on_draw(x, y, alpha, alpha2, entity)
+    local weapon = menu_weapon(reference:GetValue())
+    if alpha ~= 0 then
+        on_ind(x, y, alpha, weapon)
+    end
+    if alpha2 ~= 0 then
+        on_Icon(x, y, alpha2, entity, weapon)
+    end
 end
 --endregion
 
 --region callbacks
+local c_hcdmg_alpha = 0
+local c_hcdmg_alpha2 = 0
+
 callbacks.Register(
     "Draw",
     function()
         hitchance()
         mindamage()
-        if custom_hd_ind:GetValue() then
+        local lp = entities_GetLocalPlayer()
+        local fade_factor = ((1.0 / 0.15) * globals_FrameTime()) * 250
+        if lp and custom_hd_ind:GetValue() then
+            c_hcdmg_alpha = clamp(c_hcdmg_alpha + fade_factor, 0, 255)
+        else
+            c_hcdmg_alpha = clamp(c_hcdmg_alpha - fade_factor, 0, 255)
+        end
+        if lp and lp:IsAlive() and custom_hd_ind:GetValue() then
+            c_hcdmg_alpha2 = clamp(c_hcdmg_alpha2 + fade_factor, 0, 255)
+        else
+            c_hcdmg_alpha2 = clamp(c_hcdmg_alpha2 - fade_factor, 0, 255)
+        end
+
+        if c_hcdmg_alpha or c_hcdmg_alpha2 ~= 0 then
             position_save()
             local x, y = drag_indicator(chd_move_x, chd_move_y, 150, 75)
-            on_draw_ind(x, y)
+            on_draw(x, y, c_hcdmg_alpha, c_hcdmg_alpha2, lp)
         end
     end
 )
