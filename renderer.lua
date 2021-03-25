@@ -2,7 +2,7 @@ local renderer = {
     version = 1.0,
     link = {
         ch = "https://aimware28.coding.net/p/coding-code-guide/d/aimware/git/raw/master/renderer.lua?download=false",
-        en = "?"
+        en = "https://raw.githubusercontent.com/287871/aimware/main/renderer.lua"
     }
 }
 
