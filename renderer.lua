@@ -2,6 +2,7 @@ local renderer = {}
 
 local math_modf = math.modf
 local string_format = string.format
+local string_match = string.match
 local math_sin = math.sin
 local math_cos = math.cos
 local math_rad = math.rad
@@ -14,7 +15,7 @@ end
 
 --[[
 
-syntax: renderer.text(x, y, r, g, b, a, string, shadow)
+syntax: renderer.text(x, y, r, g, b, a, string, mode)
 
 x - Screen coordinate
 
@@ -77,9 +78,10 @@ function renderer.measure_text(string, font)
         renderer_assert(type(font) == "userdata", 3, "Invalid font '" .. tostring(font) .. "'.")
         draw.SetFont(font)
     end
-    local width, height = draw.GetTextSize(string)
+
+    local w, h = draw.GetTextSize(string)
     draw.SetFont(default_font)
-    return width, height
+    return w, h
 end
 
 --[[
@@ -166,7 +168,7 @@ end
 
 --[[
 
-syntax: renderer.circle_outline(x, y, r, g, b, a, radius, start_degrees, percentage, thickness)
+syntax: renderer.circle_outline(x, y, r, g, b, a, radius, start_degrees, percentage, thickness, cycle)
 
 x - Screen coordinate
 
@@ -213,20 +215,37 @@ function renderer.circle_outline(x, y, r, g, b, a, radius, start_degrees, percen
     local cur_point2
     local old_point2
     draw.Color(r, g, b, a)
-    for steps = start_degrees, (percentage * 360) + (start_degrees) - 1, 1 do
-        local steps = steps + 91.5
-        local sin_cur = math_sin(math_rad(steps * cycle))
-        local sin_old = math_sin(math_rad(steps * cycle - (cycle * 2)))
-        local cos_cur = math_cos(math_rad(steps * cycle))
-        local cos_old = math_cos(math_rad(steps * cycle - (cycle * 2)))
 
-        local cur_point = {x + sin_cur * radius, y + cos_cur * radius}
-        local old_point = {x + sin_old * radius, y + cos_old * radius}
-        local cur_point2 = {x + sin_cur * (radius - thickness), y + cos_cur * (radius - thickness)}
-        local old_point2 = {x + sin_old * (radius - thickness), y + cos_old * (radius - thickness)}
+    if percentage > 0 then
+        for steps = start_degrees, (percentage * 360) + (start_degrees) - 1, 1 do
+            local steps = steps + 91.5
+            local sin_cur = math_sin(math_rad(steps * cycle))
+            local sin_old = math_sin(math_rad(steps * cycle - (cycle * 2)))
+            local cos_cur = math_cos(math_rad(steps * cycle))
+            local cos_old = math_cos(math_rad(steps * cycle - (cycle * 2)))
 
-        draw.Triangle(cur_point[1], cur_point[2], old_point[1], old_point[2], old_point2[1], old_point2[2])
-        draw.Triangle(cur_point2[1], cur_point2[2], old_point2[1], old_point2[2], cur_point[1], cur_point[2])
+            local cur_point = {x + sin_cur * radius, y + cos_cur * radius}
+            local old_point = {x + sin_old * radius, y + cos_old * radius}
+            local cur_point2 = {x + sin_cur * (radius - thickness), y + cos_cur * (radius - thickness)}
+            local old_point2 = {x + sin_old * (radius - thickness), y + cos_old * (radius - thickness)}
+            draw.Triangle(cur_point[1], cur_point[2], old_point[1], old_point[2], old_point2[1], old_point2[2])
+            draw.Triangle(cur_point2[1], cur_point2[2], old_point2[1], old_point2[2], cur_point[1], cur_point[2])
+        end
+    elseif percentage < 0 then
+        for steps = start_degrees, (string_match(percentage, "-(.+)") * 360) + (start_degrees) - 1, 1 do
+            local steps = steps + 91.5
+            local sin_cur = math_sin(math_rad(steps * cycle))
+            local sin_old = math_sin(math_rad(steps * cycle - (cycle * 2)))
+            local cos_cur = math_cos(math_rad(steps * cycle))
+            local cos_old = math_cos(math_rad(steps * cycle - (cycle * 2)))
+
+            local cur_point = {x - sin_cur * radius, y + cos_cur * radius}
+            local old_point = {x - sin_old * radius, y + cos_old * radius}
+            local cur_point2 = {x - sin_cur * (radius - thickness), y + cos_cur * (radius - thickness)}
+            local old_point2 = {x - sin_old * (radius - thickness), y + cos_old * (radius - thickness)}
+            draw.Triangle(cur_point[1], cur_point[2], old_point[1], old_point[2], old_point2[1], old_point2[2])
+            draw.Triangle(cur_point2[1], cur_point2[2], old_point2[1], old_point2[2], cur_point[1], cur_point[2])
+        end
     end
     draw.Color(255, 255, 255, 255)
 end
@@ -258,6 +277,7 @@ w - Width
 h - Height
 
 This can only be called from the paint callback.
+
 ]]
 function renderer.texture(texture, x, y, w, h)
     draw.SetTexture(texture)
