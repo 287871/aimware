@@ -3,6 +3,7 @@ local renderer = {}
 local math_modf = math.modf
 local string_format = string.format
 local string_match = string.match
+local string_sub = string.sub
 local math_sin = math.sin
 local math_cos = math.cos
 local math_rad = math.rad
@@ -12,6 +13,73 @@ local function renderer_assert(expression, level, message, ...)
     if (not expression) then
         error(string_format(message, ...), level)
     end
+end
+
+--[[
+
+syntax: renderer.create_font(name, height, weight)
+
+name - Optional font name, Default to "verdana"
+
+height - Optional font height, Default to 12
+
+weight - Optional font weight, Default to 0
+
+]]
+function renderer.create_font(name, height, weight)
+    if name then
+        renderer_assert(type(name) == "string", 3, "'" .. tostring(string) .. "' must be a string.")
+    end
+    if height then
+        renderer_assert(type(height) == "number", 3, "'" .. tostring(height) .. "' must be a number.")
+    end
+    if weight then
+        renderer_assert(type(weight) == "number", 3, "'" .. tostring(weight) .. "' must be a number.")
+    end
+
+    return draw.CreateFont(name or "verdana", height or 12, weight or 0)
+end
+
+--[[
+
+syntax: renderer.screen_size(name, height, weight)
+
+Get game resolution settings, returns width, height.
+
+]]
+function renderer.screen_size()
+    return draw.GetScreenSize()
+end
+
+--[[
+
+syntax: renderer.set_font(name, height, weight)
+
+Set current font for drawing. To be used with renderer.text
+
+]]
+function renderer.set_font(font)
+    renderer_assert(type(font) == "userdata", 3, "Invalid font '" .. tostring(font) .. "'.")
+    draw.SetFont(font)
+end
+
+--[[
+
+syntax: renderer.color(color)
+
+color - Hexadecimal color
+
+Convert hex color
+
+Return decision system color
+]]
+function renderer.color(color)
+    local clr = string_match(color, [[#(........)]]) or renderer_assert(false, 3, "'" .. "'" .. tostring(color) .. "' wrong color parameter")
+    local r = tonumber(string_match(clr, [[(..)]]), 16)
+    local g = tonumber(string_match(clr, [[..(..)]]), 16)
+    local b = tonumber(string_match(clr, [[....(..)]]), 16)
+    local a = tonumber(string_match(clr, [[......(..)]]), 16)
+    return r, g, b, a
 end
 
 --[[
@@ -46,11 +114,11 @@ function renderer.text(x, y, r, g, b, a, string, mode)
 
     renderer_assert(type(string) == "string" or "number", 3, "'" .. tostring(string) .. "' must be a string.")
 
-    renderer_assert(type(mode) == "string", 3, "'" .. tostring(mode) .. "' must be a 's' or ''.")
-
     if mode == "s" then
         draw.Color(0, 0, 0, a)
         draw.Text(x + 1, y + 1, string)
+    else
+        renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
 
     draw.Color(r, g, b, a)
@@ -116,8 +184,6 @@ function renderer.rectangle(x, y, w, h, r, g, b, a, mode, radius)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    renderer_assert(type(mode) == "string", 3, "'" .. tostring(mode) .. "' must be a string.")
-
     draw.Color(r, g, b, a)
 
     local w = (w < 0) and (x - math_abs(w)) or x + w
@@ -130,7 +196,7 @@ function renderer.rectangle(x, y, w, h, r, g, b, a, mode, radius)
     elseif mode == "s" then
         draw.ShadowRect(x, y, w, h, radius or 0)
     else
-        error(string_format("'" .. tostring(mode) .. "' Unspecified mode"), 3)
+        renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
     draw.Color(255, 255, 255, 255)
 end
@@ -292,7 +358,7 @@ function renderer.circle(x, y, r, g, b, a, radius, mode)
     elseif mode == "o" then
         draw.OutlinedCircle(x, y, radius)
     else
-        renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' Wrong parameter mode")
+        renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
 
     draw.Color(255, 255, 255, 255)
@@ -412,6 +478,61 @@ end
 
 --[[
 
+syntax: renderer.roundedrect(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
+
+x1 - Screen coordinate X for point A
+
+y1 - Screen coordinate Y for point A
+
+x2 - Screen coordinate X for point B
+
+y2 - Screen coordinate Y for point B
+
+r - Red (0-255)
+
+g - Green (0-255)
+
+b - Blue (0-255)
+
+a - Alpha (0-255)
+
+radius - Radius of roundness
+
+mode - String: "f" for filled, "o" for out lined
+
+tl - Optional round top left corner
+
+tr - Optional round top right corner
+
+bl - Optional round bottom left corner
+
+br - Optional round bottom right corner
+
+This can only be called from the paint callback.
+
+]]
+function renderer.roundedrect(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
+    renderer_assert(type(x1 and y1 and x2 and y2) == "number", 3, "'" .. tostring(x1 and y1 and x2 and y2) .. "' must be a number.")
+
+    renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
+
+    renderer_assert(type(radius) == "number", 3, "'" .. tostring(radius) .. "' must be a number.")
+
+    local tl, tr, bl, br = tl or 0, tr or 0, bl or 0, br or 0
+
+    draw.Color(r, g, b, a)
+    if mode == "f" then
+        draw.RoundedRectFill(x1, y1, x2, y2, radius, tl, tr, bl, br)
+    elseif mode == "o" then
+        draw.RoundedRect(x1, y1, x2, y2, radius, tl, tr, bl, br)
+    else
+        renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
+    end
+    draw.Color(255, 255, 255, 255)
+end
+
+--[[
+
 syntax: renderer.world_to_screen(x, y, z)
 
 x - Position in world space
@@ -494,7 +615,7 @@ This can only be called from the paint callback.
 
 ]]
 function renderer.texture(texture, x, y, w, h)
-    print(texture)
+    renderer_assert(type(texture) == "userdata", 3, "Texture format error.")
     draw.SetTexture(texture)
     draw.FilledRect(x, y, x + w, y + h)
     draw.SetTexture(nil)
