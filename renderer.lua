@@ -481,7 +481,7 @@ end
 
 --[[
 
-syntax: renderer.roundedrect(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
+syntax: renderer.rounded_rect(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
 
 x1 - Screen coordinate X for point A
 
