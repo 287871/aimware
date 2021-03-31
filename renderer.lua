@@ -514,7 +514,7 @@ br - Optional round bottom right corner
 This can only be called from the paint callback.
 
 ]]
-function renderer.rounded_rect(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
+function renderer.rectangle_rounded(x1, y1, x2, y2, r, g, b, a, radius, mode, tl, tr, bl, br)
     renderer_assert(type(x1 and y1 and x2 and y2) == "number", 3, "'" .. tostring(x1 and y1 and x2 and y2) .. "' must be a number.")
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
