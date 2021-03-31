@@ -79,6 +79,7 @@ function renderer.color(color)
     local g = tonumber(string_match(clr, [[..(..)]]), 16)
     local b = tonumber(string_match(clr, [[....(..)]]), 16)
     local a = tonumber(string_match(clr, [[......(..)]]), 16)
+    draw.Color(r, g, b, a)
     return r, g, b, a
 end
 
@@ -112,17 +113,19 @@ function renderer.text(x, y, r, g, b, a, string, mode)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    renderer_assert(type(string) == "string" or "number", 3, "'" .. tostring(string) .. "' must be a string.")
+    renderer_assert(type(string) == "string" ,3, "'" .. tostring(string) .. "' must be a string.")
 
     if mode == "s" then
         draw.Color(0, 0, 0, a)
         draw.Text(x + 1, y + 1, string)
+        draw.Color(r, g, b, a)
+        draw.Text(x, y, string)
+    elseif mode == "" then
+        draw.Color(r, g, b, a)
+        draw.Text(x, y, string)
     else
         renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
-
-    draw.Color(r, g, b, a)
-    draw.Text(x, y, string)
 
     draw.Color(255, 255, 255, 255)
 end
