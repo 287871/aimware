@@ -8,6 +8,7 @@ local math_sin = math.sin
 local math_cos = math.cos
 local math_rad = math.rad
 local math_abs = math.abs
+local table_insert = table.insert
 
 local function renderer_assert(expression, level, message, ...)
     if (not expression) then
@@ -37,7 +38,7 @@ function renderer.create_font(name, height, weight)
         renderer_assert(type(weight) == "number", 3, "'" .. tostring(weight) .. "' must be a number.")
     end
 
-    return draw.CreateFont(name or "verdana", height or 12, weight or 0)
+    return draw.CreateFont(name or "verdana", height or 15, weight or 0)
 end
 
 --[[
@@ -67,18 +68,26 @@ end
 
 syntax: renderer.color(color)
 
-color - Hexadecimal color
+color - String hexadecimal or array decimal
 
-Convert hex color
+Return r g b a
 
-Return decision system color
 ]]
 function renderer.color(color)
-    local clr = string_match(color, [[#(........)]]) or renderer_assert(false, 3, "'" .. "'" .. tostring(color) .. "' wrong color parameter")
-    local r = tonumber(string_match(clr, [[(..)]]), 16)
-    local g = tonumber(string_match(clr, [[..(..)]]), 16)
-    local b = tonumber(string_match(clr, [[....(..)]]), 16)
-    local a = tonumber(string_match(clr, [[......(..)]]), 16)
+    if type(color) == "string" then
+        local clr = string_match(color, [[#(........)]]) or renderer_assert(false, 3, "'" .. "'" .. tostring(color) .. "' wrong color parameter")
+        r = tonumber(string_match(clr, [[(..)]]), 16)
+        g = tonumber(string_match(clr, [[..(..)]]), 16)
+        b = tonumber(string_match(clr, [[....(..)]]), 16)
+        a = tonumber(string_match(clr, [[......(..)]]), 16)
+    elseif type(color) == "table" then
+        renderer_assert(
+            type(color[1] and color[2] and color[3] and color[4]) == "number",
+            3,
+            "'" .. tostring(color[1] and color[2] and color[3] and color[4]) .. "' must be a number."
+        )
+        r, g, b, a = color[1], color[2], color[3], color[4]
+    end
     draw.Color(r, g, b, a)
     return r, g, b, a
 end
@@ -113,21 +122,21 @@ function renderer.text(x, y, r, g, b, a, string, mode)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    renderer_assert(type(string) == "string" ,3, "'" .. tostring(string) .. "' must be a string.")
+    renderer_assert(type(string) == "string", 3, "'" .. tostring(string) .. "' must be a string.")
 
     if mode == "s" then
-        draw.Color(0, 0, 0, a)
+        renderer.color({0, 0, 0, a})
         draw.Text(x + 1, y + 1, string)
-        draw.Color(r, g, b, a)
+        renderer.color({r, g, b, a})
         draw.Text(x, y, string)
     elseif mode == "" then
-        draw.Color(r, g, b, a)
+        renderer.color({r, g, b, a})
         draw.Text(x, y, string)
     else
         renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
 
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -141,18 +150,17 @@ font - Text font to be measured
 Returns width, height. This can only be called from the paint callback.
 
 ]]
-local default_font = draw.CreateFont("Verdana", 15)
+local default_font = renderer.create_font()
 function renderer.measure_text(string, font)
     renderer_assert(type(string) == "string", 3, "'" .. tostring(string) .. "' must be a string.")
 
+    renderer.set_font(default_font)
     if font then
         renderer_assert(type(font) == "userdata", 3, "Invalid font '" .. tostring(font) .. "'.")
-        draw.SetFont(font)
+        renderer.set_font(font)
     end
 
-    local w, h = draw.GetTextSize(string)
-    draw.SetFont(default_font)
-    return w, h
+    return draw.GetTextSize(string)
 end
 
 --[[
@@ -187,8 +195,7 @@ function renderer.rectangle(x, y, w, h, r, g, b, a, mode, radius)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    draw.Color(r, g, b, a)
-
+    renderer.color({r, g, b, a})
     local w = (w < 0) and (x - math_abs(w)) or x + w
     local h = (h < 0) and (y - math_abs(h)) or y + h
 
@@ -201,7 +208,7 @@ function renderer.rectangle(x, y, w, h, r, g, b, a, mode, radius)
     else
         renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -232,9 +239,9 @@ function renderer.line(xa, ya, xb, yb, r, g, b, a)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    draw.Color(r, g, b, a)
+    renderer.color({r, g, b, a})
     draw.Line(xa, ya, xb, yb)
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -322,7 +329,7 @@ function renderer.gradient(x, y, w, h, r1, g1, b1, a1, r2, g2, b2, a2, ltr)
         end
     end
 
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -355,7 +362,7 @@ function renderer.circle(x, y, r, g, b, a, radius, mode)
 
     renderer_assert(type(radius) == "number", 3, "'" .. tostring(radius) .. "' must be a number.")
 
-    draw.Color(r, g, b, a)
+    renderer.color({r, g, b, a})
     if mode == "f" then
         draw.FilledCircle(x, y, radius)
     elseif mode == "o" then
@@ -364,7 +371,7 @@ function renderer.circle(x, y, r, g, b, a, radius, mode)
         renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
 
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -412,7 +419,7 @@ function renderer.circle_outline(x, y, r, g, b, a, radius, start_degrees, percen
 
     renderer_assert(type(cycle) == "number", 3, "'" .. tostring(cycle) .. "' must be a number.")
 
-    draw.Color(r, g, b, a)
+    renderer.color({r, g, b, a})
 
     for steps = start_degrees, (math_abs(percentage) * 360) + start_degrees - 1, 1 do
         local steps = steps - 89
@@ -435,7 +442,7 @@ function renderer.circle_outline(x, y, r, g, b, a, radius, start_degrees, percen
         draw.Triangle(cur_point2[1], cur_point2[2], old_point2[1], old_point2[2], cur_point[1], cur_point[2])
     end
 
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -474,9 +481,9 @@ function renderer.triangle(x0, y0, x1, y1, x2, y2, r, g, b, a)
 
     renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
 
-    draw.Color(r, g, b, a)
+    renderer.color({r, g, b, a})
     draw.Triangle(x0, y0, x1, y1, x2, y2)
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -523,7 +530,7 @@ function renderer.rectangle_rounded(x1, y1, x2, y2, r, g, b, a, radius, mode, tl
 
     local tl, tr, bl, br = tl or 0, tr or 0, bl or 0, br or 0
 
-    draw.Color(r, g, b, a)
+    renderer.color({r, g, b, a})
     if mode == "f" then
         draw.RoundedRectFill(x1, y1, x2, y2, radius, tl, tr, bl, br)
     elseif mode == "o" then
@@ -531,7 +538,7 @@ function renderer.rectangle_rounded(x1, y1, x2, y2, r, g, b, a, radius, mode, tl
     else
         renderer_assert(false, 3, "'" .. "'" .. tostring(mode) .. "' wrong parameter mode")
     end
-    draw.Color(255, 255, 255, 255)
+    renderer.color("#ffffffff")
 end
 
 --[[
@@ -549,8 +556,91 @@ Returns two screen coordinates (x, y), or nil if the world position is not visib
 ]]
 function renderer.world_to_screen(x, y, z)
     renderer_assert(type(x, y, z) == "number", 3, "'" .. tostring(x, y, z) .. "' must be a number.")
-    local x, y = client.WorldToScreen(Vector3(x, y, z))
-    return x, y
+    return client.WorldToScreen(Vector3(x, y, z))
+end
+
+--[[
+
+syntax: renderer.new_indicator()
+
+x - Position in world space
+
+y - Position in world space
+
+z - Position in world space
+
+This can only be called from the paint callback. Create new indicator
+
+]]
+local indicator_object = {}
+local font_segoe_ui = renderer.create_font("segoe ui", 30, 600)
+
+function renderer.new_indicator()
+    local lp = entities.GetLocalPlayer()
+    if not (lp and lp:IsAlive()) then
+        return
+    end
+
+    local temp = {}
+
+    local screen_size = {renderer.screen_size()}
+    local y = screen_size[2] / 1.4105 - #temp * 35
+
+    for i = 1, #indicator_object do
+        table_insert(temp, indicator_object[i])
+    end
+
+    for i = 1, #temp do
+        local __ind = temp[i]
+
+        local w, h = renderer.measure_text(__ind.string, font_segoe_ui)
+
+        renderer.gradient(12 + (w * 0.5), y - (h * 0.25), (w * 0.5), h * 2, 0, 0, 0, 0, 0, 0, 0, 50, true)
+        renderer.gradient(12, y - (h * 0.25), (w * 0.5) + 0.5, h * 2, 0, 0, 0, 50, 0, 0, 0, 0, true)
+
+        renderer.set_font(font_segoe_ui)
+        renderer.text(15, y, __ind.r, __ind.g, __ind.b, __ind.a, __ind.string, "")
+        y = y - 35
+    end
+    indicator_object = {}
+end
+
+--[[
+
+syntax: renderer.indicator(r, g, b, a, ...)
+
+r - Red (0-255)
+
+g - Green (0-255)
+
+b - Blue (0-255)
+
+a - Alpha (0-255)
+
+string - The text that will be drawn
+
+This can only be called from the paint callback. The renderer.new_indicator must be created before it can be called
+
+]]
+function renderer.indicator(r, g, b, a, string)
+    renderer_assert(type(r and g and b and a) == "number", 3, "'" .. tostring(r and g and b and a) .. "' must be a number.")
+
+    renderer_assert(type(string) == "string", 3, "'" .. tostring(string) .. "' must be a string.")
+
+    local indicator = {}
+    if not i then
+        i = 0
+    end
+    local i = #indicator_object + 1
+    indicator_object[i] = {}
+    setmetatable(indicator_object[i], indicator)
+    indicator.__index = indicator
+    indicator.r = r or 255
+    indicator.g = g or 255
+    indicator.b = b or 255
+    indicator.a = a or 255
+    indicator.string = string or ""
+    return indicator_object[i]
 end
 
 --[[
@@ -561,13 +651,13 @@ contents - SVG file contents
 
 scale - Optional parameters set SVG scale
 
-Returns a texture that can be used with renderer.texture and RGBA, width, height, or nil on failure
+Returns a texture that can be used with renderer.texture and object parameters, or nil on failure
 
 ]]
 function renderer.load_svg(contents, scale)
     local rgba, width, height = common.RasterizeSVG(contents or nil, scale or 1)
     local texture = draw.CreateTexture(rgba, width, height)
-    return texture, rgba, width, height
+    return texture, {rgba, width, height}
 end
 
 --[[
@@ -576,13 +666,13 @@ syntax: renderer.load_png(contents)
 
 contents - PNG file contents
 
-Returns a texture that can be used with renderer.texture, or nil on failure
+Returns a texture that can be used with renderer.texture and object parameters, or nil on failure
 
 ]]
 function renderer.load_png(contents)
     local rgba, width, height = common.DecodePNG(contents or nil)
     local texture = draw.CreateTexture(rgba, width, height)
-    return texture, rgba, width, height
+    return texture, {rgba, width, height}
 end
 
 --[[
@@ -591,13 +681,13 @@ syntax: renderer.load_jpg(contents)
 
 contents - JPEG file contents
 
-Returns a texture that can be used with renderer.texture, or nil on failure
+Returns a texture that can be used with renderer.texture and object parameters, or nil on failure
 
 ]]
 function renderer.load_jpg(contents)
     local rgba, width, height = common.DecodeJPEG(contents or nil)
     local texture = draw.CreateTexture(rgba, width, height)
-    return texture, rgba, width, height
+    return texture, {rgba, width, height}
 end
 
 --[[
@@ -619,6 +709,7 @@ This can only be called from the paint callback.
 ]]
 function renderer.texture(texture, x, y, w, h)
     renderer_assert(type(texture) == "userdata", 3, "Texture format error.")
+    renderer_assert(type(x and y and w and h) == "number", 3, "'" .. tostring(x and y and w and h) .. "' must be a number.")
     draw.SetTexture(texture)
     draw.FilledRect(x, y, x + w, y + h)
     draw.SetTexture(nil)
