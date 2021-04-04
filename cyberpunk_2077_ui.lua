@@ -35,12 +35,12 @@ if not renderer_lib_inspect then
     local function http_renderer(body)
         file.Write("libraries/renderer.lua", body)
     end
-    http.Get("https://aimware28.coding.net/p/coding-code-guide/d/aimware/git/raw/master/libraries/renderer.lua?download=false", http_renderer)
+    http.Get("https://raw.githubusercontent.com/287871/aimware/renderer/renderer.lua", http_renderer)
 elseif not imagepack_icons_lib_inspect then
     local function http_imagepack_icon(body)
         file.Write("libraries/imagepack_icons.lua", body)
     end
-    http.Get("https://aimware28.coding.net/p/coding-code-guide/d/aimware/git/raw/master/imagepack_icons.lua?download=false", http_imagepack_icon)
+    http.Get("https://raw.githubusercontent.com/287871/aimware/renderer/imagepack_icons.lua", http_imagepack_icon)
 end
 --region end
 
