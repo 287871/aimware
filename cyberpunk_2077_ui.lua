@@ -2,14 +2,6 @@
 --working on aimware 2021/4/4
 --by qi https://aimware.net/forum/user/366789
 
---region close csgo ui
-local close_csgo_ui = true
-
-if close_csgo_ui then
-    client.SetConVar("hidehud", 9, true)
-end
---region end
-
 --region local variable
 local globals_FrameCount = globals.FrameCount
 local math_max = math.max
@@ -370,12 +362,6 @@ callbacks.Register(
     function()
         health_armor()
         weapon()
-    end
-)
-callbacks.Register(
-    "Unload",
-    function()
-        client.SetConVar("hidehud", 0, true)
     end
 )
 --regionend
