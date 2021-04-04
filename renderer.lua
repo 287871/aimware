@@ -159,7 +159,7 @@ function renderer.measure_text(flags, ...)
     return width, height
 end
 
-function renderer.text(self, x, y, r, g, b, a, flags, ...)
+function renderer.text(x, y, r, g, b, a, flags, ...)
     local arg = {...}
     bad_argument(x and y, "text", "number")
     bad_argument(flags, "text", "string")
