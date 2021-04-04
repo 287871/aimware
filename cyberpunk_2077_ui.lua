@@ -1,6 +1,6 @@
 --cyberpunk 2077 ui
 --working on aimware 2021/4/4
---by qi
+--by qi https://aimware.net/forum/user/366789
 
 --region close csgo ui
 local close_csgo_ui = true
