@@ -436,7 +436,6 @@ function renderer.load_jpg(contents)
 end
 
 function renderer.texture(texture, x, y, w, h, r, g, b, a)
-    bad_argument(texture, "texture", "userdata")
     bad_argument(x and y and w and h, "texture", "number")
 
     draw_SetTexture(texture)
