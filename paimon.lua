@@ -79,6 +79,8 @@ end
 
 local ui_dragging = dragging(gui.Reference("visuals", "other", "extra"), "paimongif", screen_size[1] * 0.2, screen_size[2] * 0.1)
 
+local paimon_gif_lib_installed = false
+
 local function paimon_file(name)
     if string.find(name, "picture/paimon_gif/(.-).png") then
         local png_open = file.Open(name, "r")
@@ -86,9 +88,23 @@ local function paimon_file(name)
         png_open:Close()
         local texture = draw.CreateTexture(common.DecodePNG(png_data))
         table.insert(paimon_gif, texture)
+        paimon_gif_lib_installed = true
     end
 end
+if not paimon_gif_lib_installed then
+    for i = 0, 52 do
+        local i = i > 9 and i or 0 .. i
+        local function http_renderer(body)
+            file.Write("picture/paimon_gif/paimon_00" .. i .. ".png", body)
+        end
 
+        http.Get(
+        --ch    "https://aimware28.coding.net/p/coding-code-guide/d/aimware/git/raw/master/picture/paimon_gif/paimon_00" .. i .. ".png?download=false",
+           "https://raw.githubusercontent.com/287871/aimware/b6f491ebf48d15fcf11ebd708b2e97a299d5e235/picture/paimon_gif/paimon_00" .. i .. ".png",
+            http_renderer
+        )
+    end
+end
 local function on_draw()
     local time = math_floor(globals.CurTime() * 1000)
 
