@@ -1,3 +1,6 @@
+--part of the code comes from github
+--by qi
+
 --color
 color = {}
 
