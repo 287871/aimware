@@ -15,10 +15,10 @@ local function require(filename, url)
     return module or error("unable to load module " .. filename, 2)
 end
 
-local a =
+local base64 =
     require(
     "libraries/base64",
-    "https://aimware28.coding.net/p/coding-code-guide/d/aimware/git/raw/master/libraries/base64.lua?download=false"
+    "https://raw.githubusercontent.com/287871/aimware/renderer/libraries/base64.lua"
 )
 --]=====]
 
