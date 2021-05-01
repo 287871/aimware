@@ -77,7 +77,7 @@ local function draw_hud_circle()
 
     draw.text(x, y + 25, "sc", reserve)
 
-    local wep_name = weapons.item_class:sub(8, -1)
+    local wep_name = weapons.console_name:sub(8, -1)
     local draw_icon = weapon_icon[wep_name]
     local icon_measure = {draw_icon:measure()}
 
