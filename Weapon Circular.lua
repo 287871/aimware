@@ -23,7 +23,7 @@ local weapon_icon =
     require("libraries/imagepack_icons", "https://aimware28.coding.net/p/coding-code-guide/d/aim_lib/git/raw/master/images/imagepack_icons.lua")
 )
 
-local csgo_weapons = require "libraries/csgo_weapons"
+local csgo_weapons = require("libraries/csgo_weapons", "https://aimware28.coding.net/p/coding-code-guide/d/aim_lib/git/raw/master/csgo_weapons.lua ")
 
 local x, y = draw.get_screen_size()
 local ui_drag = draw.drag(gui.Reference("visuals", "other", "extra"), "circlehud.", x * 0.55, y * 0.8)
